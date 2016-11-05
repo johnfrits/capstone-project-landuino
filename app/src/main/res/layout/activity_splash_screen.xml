@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.admin123.smsams.SplashScreen">
+
+    <ImageView
+        android:layout_height="fill_parent"
+        app:srcCompat="@drawable/smsamslogo"
+        android:id="@+id/imageView"
+        android:layout_gravity="center"
+        android:layout_width="fill_parent"
+        android:cropToPadding="true"
+        android:layout_marginBottom="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:indicatorColor="#0d8748"
+        app:indicatorName="BallGridPulseIndicator"
+        android:layout_gravity="center"
+        android:id="@+id/avi"
+        android:layout_marginBottom="38dp"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
