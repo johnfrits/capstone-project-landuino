@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
+        android:paddingBottom="15dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:weightSum="1">
@@ -26,7 +26,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="326dp"
-                android:layout_marginBottom="-45dp"
+                android:layout_marginBottom="-37dp"
                 app:srcCompat="@drawable/capstonelogo" />
 
         </LinearLayout>
@@ -62,7 +62,7 @@
             android:id="@+id/eTxt_retype_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             android:drawableLeft="@drawable/ic_lock"
             android:drawablePadding="5dp"
             android:layout_weight="0.20"
