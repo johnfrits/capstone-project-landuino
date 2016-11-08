@@ -9,5 +9,11 @@
     <string name="retype_password">Retype Password</string>
     <string name="register">Register</string>
     <string name="done_register">Already registered! Login me.</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="drawer_item_home">home</string>
+    <string name="drawer_item_appsettings">App Setting</string>
+    <string name="drawer_item_accsettings">Account Setting</string>
+    <string name="drawer_item_statistic">Statistic</string>
 
 </resources>

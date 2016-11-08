@@ -56,7 +56,8 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
 
         <Button
