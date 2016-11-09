@@ -12,8 +12,11 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="drawer_item_home">home</string>
-    <string name="drawer_item_appsettings">App Setting</string>
-    <string name="drawer_item_accsettings">Account Setting</string>
+    <string name="drawer_item_app_settings">App Setting</string>
+    <string name="drawer_item_account_settings">Account Setting</string>
     <string name="drawer_item_statistic">Statistic</string>
+    <string name="map">Map</string>
+    <string name="analyze_soil">Analyze Soil</string>
+    <string name="logout">Logout</string>
 
 </resources>

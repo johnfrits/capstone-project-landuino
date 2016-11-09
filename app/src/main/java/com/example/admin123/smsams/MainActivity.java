@@ -1,5 +1,6 @@
 package com.example.admin123.smsams;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -38,17 +41,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         CreateDrawer(CreateAccountDrawer(), toolbar);
     }
 
-    private AccountHeader CreateAccountDrawer(){
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+    }
+
+    private AccountHeader CreateAccountDrawer() {
 
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabledForSingleProfile(false)
-                .withHeaderBackground(R.drawable.header)
+                .withHeaderBackground(R.drawable.header1)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Johnfrits Rejaba").withIcon(getResources().getDrawable(R.drawable.profile))
+                        new ProfileDrawerItem().withName("Johnfrits Rejaba").withIcon(getResources()
+                                .getDrawable(R.drawable.profile))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -61,22 +71,37 @@ public class MainActivity extends AppCompatActivity {
         return headerResult;
 
     }
-    private void CreateDrawer(AccountHeader header, Toolbar toolbar){
 
-        //if you want to update the items at a later time it is recommended to keep it in a variable
-        SecondaryDrawerItem item1 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_item_appsettings);
-        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(3).withName(R.string.drawer_item_accsettings);
-        SecondaryDrawerItem item3 = new SecondaryDrawerItem().withIdentifier(3).withName(R.string.drawer_item_statistic);
+    private void CreateDrawer(AccountHeader header, Toolbar toolbar) {
+
+        //Map
+        //Analyze Soil
+        //Statistic
+        PrimaryDrawerItem p_item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.map).withIcon(FontAwesome.Icon.faw_map);
+        PrimaryDrawerItem p_item2 = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.analyze_soil).withIcon(FontAwesome.Icon.faw_bullseye);
+        PrimaryDrawerItem p_item3 = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.drawer_item_statistic).withIcon(FontAwesome.Icon.faw_line_chart);
+        //App Setting
+        //Account Setting
+        //Logout
+        SecondaryDrawerItem s_item1 = new SecondaryDrawerItem().withIdentifier(1).withName(R.string.drawer_item_app_settings).withIcon(FontAwesome.Icon.faw_cog);
+        SecondaryDrawerItem s_item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_item_account_settings).withIcon(FontAwesome.Icon.faw_cog);
+        SecondaryDrawerItem s_item3 = new SecondaryDrawerItem().withIdentifier(3).withName(R.string.logout).withIcon(FontAwesome.Icon.faw_sign_out);
 
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(header)
                 .withToolbar(toolbar)
+
                 .addDrawerItems(
-                        item1,
-                        item2,
-                        item3
+                        p_item1,
+                        p_item2,
+                        p_item3,
+                        new DividerDrawerItem(),
+                        s_item1,
+                        s_item2,
+                        new DividerDrawerItem(),
+                        s_item3
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
