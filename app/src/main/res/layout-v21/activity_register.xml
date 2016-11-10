@@ -42,7 +42,8 @@
             android:hint="@string/username"
             android:inputType="textPersonName"
             android:selectAllOnFocus="false"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
         <EditText
             android:id="@+id/eTxt_password_register"

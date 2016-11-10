@@ -1,17 +1,20 @@
-package com.example.admin123.smsams;
+package com.example.admin123.smsams.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.admin123.smsams.R;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     TextView register_link;
     Button btnLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +34,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                Intent i = new Intent(LoginActivity.this, MapsActivity.class);
                 LoginActivity.this.startActivity(i);
                 finish();
             }
         });
-
 
     }
 }

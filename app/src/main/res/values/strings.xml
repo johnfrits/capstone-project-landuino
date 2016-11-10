@@ -18,5 +18,9 @@
     <string name="map">Map</string>
     <string name="analyze_soil">Analyze Soil</string>
     <string name="logout">Logout</string>
+    <string name="title_activity_analyze_soil">AnalyzeSoilActivity</string>
+    <string name="title_activity_statistic">StatisticActivity</string>
+    <string name="title_activity_app_setting">AppSettingActivity</string>
+    <string name="title_activity_account_setting">AccountSettingActivity</string>
 
 </resources>

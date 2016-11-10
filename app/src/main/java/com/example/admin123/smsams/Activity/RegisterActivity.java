@@ -1,9 +1,9 @@
-package com.example.admin123.smsams;
+package com.example.admin123.smsams.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
+
+import com.example.admin123.smsams.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
