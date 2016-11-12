@@ -35,6 +35,9 @@ dependencies {
         transitive = true
     }
     compile 'com.mikepenz:fontawesome-typeface:+@aar'
+    compile 'com.skyfishjy.ripplebackground:library:1.0.1'
+
+
 }
 
 

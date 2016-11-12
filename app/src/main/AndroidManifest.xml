@@ -34,7 +34,7 @@
              (See the file "res/values/google_maps_api.xml").
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
+              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
@@ -44,10 +44,18 @@
         <activity
             android:name=".activity.MapsActivity"
             android:label="@string/map" />
-        <activity android:name=".activity.AnalyzeSoilActivity" />
-        <activity android:name=".activity.StatisticActivity" />
-        <activity android:name=".activity.AppSettingActivity" />
-        <activity android:name=".activity.AccountSettingActivity" />
+        <activity
+            android:name=".activity.AnalyzeSoilActivity"
+            android:label="@string/analyze_soil" />
+        <activity
+            android:name=".activity.StatisticActivity"
+            android:label="@string/title_activity_statistic" />
+        <activity
+            android:name=".activity.AppSettingActivity"
+            android:label="@string/drawer_item_app_settings" />
+        <activity
+            android:name=".activity.AccountSettingActivity"
+            android:label="@string/drawer_item_account_settings" />
     </application>
 
 </manifest>

@@ -45,19 +45,28 @@
             android:textAlignment="viewStart"
             android:textSize="18sp" />
 
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loginavi"
+            android:layout_width="223dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:indicatorColor="#0d8748"
+            app:indicatorName="BallPulseSyncIndicator"
+            android:layout_weight="0.44" />
+
         <EditText
             android:id="@+id/eTxt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:layout_weight="0.21"
             android:drawableLeft="@drawable/ic_lock"
             android:drawablePadding="5dp"
             android:ems="10"
+            android:fontFamily="sans-serif"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textAlignment="viewStart"
-            android:fontFamily="sans-serif" />
+            android:textAlignment="viewStart" />
 
 
         <Button
