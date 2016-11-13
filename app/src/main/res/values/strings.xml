@@ -23,5 +23,6 @@
     <string name="title_activity_app_setting">AppSettingActivity</string>
     <string name="title_activity_account_setting">AccountSettingActivity</string>
     <string name="analyze">Analyze</string>
+    <string name="mahlogo">mahlogo</string>
 
 </resources>

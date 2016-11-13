@@ -36,6 +36,7 @@ dependencies {
     }
     compile 'com.mikepenz:fontawesome-typeface:+@aar'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
+    compile 'com.github.d-max:spots-dialog:0.7@aar'
 
 
 }
