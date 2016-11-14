@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class RegisterRequest extends StringRequest {
 
-    private static final String REGISTER_REQUEST_URL = "http://smsams.bsitcapstone.com/loginsystemandroidscript/register.php";
+    private static final String REGISTER_REQUEST_URL = "http://192.168.1.6/smsams/register.php";
     private Map<String, String> params;
 
     public RegisterRequest(String username, String password, Response.Listener<String> listener) {

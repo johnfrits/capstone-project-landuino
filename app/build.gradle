@@ -17,6 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    allprojects {
+        repositories {
+            jcenter()
+            maven { url "https://jitpack.io" }
+        }
+    }
 }
 
 dependencies {
@@ -37,6 +44,10 @@ dependencies {
     compile 'com.mikepenz:fontawesome-typeface:+@aar'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.github.d-max:spots-dialog:0.7@aar'
+
+    compile 'com.github.felHR85:UsbSerial:4.5'
+
+
 
 
 }

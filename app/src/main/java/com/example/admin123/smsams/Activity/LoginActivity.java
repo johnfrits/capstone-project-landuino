@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -78,9 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (success) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setMessage("Login Successful")
-                                .create()
-                                .show();
+                        Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(LoginActivity.this, MapsActivity.class);
                         LoginActivity.this.startActivity(i);
                         finish();
