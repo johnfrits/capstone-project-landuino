@@ -56,6 +56,14 @@
         <activity
             android:name=".activity.AccountSettingActivity"
             android:label="@string/drawer_item_account_settings" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/SMSAMS"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.ListActivity"
+            android:label="@string/SoilList"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

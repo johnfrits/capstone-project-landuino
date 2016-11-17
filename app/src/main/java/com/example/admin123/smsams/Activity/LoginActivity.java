@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView register_link;
     Button btnLogin;
-    AVLoadingIndicatorView loginAvi;
     EditText eTxtUsername, eTxtPassword;
 
     @Override
@@ -80,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (success) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                         Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(LoginActivity.this, MapsActivity.class);
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         LoginActivity.this.startActivity(i);
                         finish();
                     } else {

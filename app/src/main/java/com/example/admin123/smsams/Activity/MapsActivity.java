@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
@@ -40,35 +41,33 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Drawer result = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        //Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
-        //fab
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
 
-        //create drawer
-        new DrawerBuilder().withActivity(this).build();
-        CreateDrawer(CreateAccountDrawer(), toolbar);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -108,108 +107,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        result.deselect();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
 
     }
 
 
-    //CREATE DRAWER
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
-    }
-
-    private AccountHeader CreateAccountDrawer() {
-
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withSelectionListEnabledForSingleProfile(false)
-                .withHeaderBackground(R.drawable.header1)
-                .addProfiles(
-                        new ProfileDrawerItem().withName("Johnfrits Rejaba").withIcon(getResources()
-                                .getDrawable(R.drawable.profile))
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
-                .build();
-
-        return headerResult;
-
-    }
-
-    private void CreateDrawer(AccountHeader header, Toolbar toolbar) {
-
-        PrimaryDrawerItem p_item1 = new PrimaryDrawerItem().withSetSelected(true).withIdentifier(1)
-                .withName(R.string.map).withIcon(FontAwesome.Icon.faw_map);
-        PrimaryDrawerItem p_item2 = new PrimaryDrawerItem().withIdentifier(2)
-                .withName(R.string.analyze_soil).withIcon(FontAwesome.Icon.faw_bullseye);
-        PrimaryDrawerItem p_item3 = new PrimaryDrawerItem().withIdentifier(3)
-                .withName(R.string.drawer_item_statistic).withIcon(FontAwesome.Icon.faw_line_chart);
-        //
-        SecondaryDrawerItem s_item1 = new SecondaryDrawerItem().withIdentifier(4)
-                .withName(R.string.drawer_item_app_settings).withIcon(FontAwesome.Icon.faw_cog);
-        SecondaryDrawerItem s_item2 = new SecondaryDrawerItem().withIdentifier(5)
-                .withName(R.string.drawer_item_account_settings).withIcon(FontAwesome.Icon.faw_cog);
-        SecondaryDrawerItem s_item3 = new SecondaryDrawerItem().withIdentifier(6)
-                .withName(R.string.logout).withIcon(FontAwesome.Icon.faw_sign_out);
-
-        //Create the drawer and remember the `Drawer` result object
-        result = new DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(header)
-                .withToolbar(toolbar)
-                .addDrawerItems(
-                        p_item1,
-                        p_item2,
-                        p_item3,
-                        new DividerDrawerItem(),
-                        s_item1,
-                        s_item2,
-                        new DividerDrawerItem(),
-                        s_item3
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-
-                        int clickedID = (int) drawerItem.getIdentifier();
-                        Intent i;
-                        switch (clickedID) {
-                            case 2:
-                                drawerItem.withSetSelected(false);
-                                i = new Intent(MapsActivity.this, AnalyzeSoilActivity.class);
-                                startActivity(i);
-                                break;
-                            case 3:
-                                drawerItem.withSetSelected(false);
-                                i = new Intent(MapsActivity.this, StatisticActivity.class);
-                                startActivity(i);
-                                break;
-                            case 4:
-                                drawerItem.withSetSelected(false);
-                                i = new Intent(MapsActivity.this, AppSettingActivity.class);
-                                startActivity(i);
-                                break;
-                            case 5:
-                                drawerItem.withSetSelected(false);
-                                i = new Intent(MapsActivity.this, AccountSettingActivity.class);
-                                startActivity(i);
-                                break;
-                        }
-                        return false;
-                    }
-                })
-                .build();
-    }
 }

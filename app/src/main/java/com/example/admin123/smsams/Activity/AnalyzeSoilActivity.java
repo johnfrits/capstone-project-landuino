@@ -33,14 +33,14 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
     Button btnAnalyze;
     TextView textView;
-    public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
 
+    public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
     UsbManager usbManager;
     UsbDevice device;
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
 
-    UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() { //Defining a Callback which triggers whenever data is read.
+    UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() {
         @Override
         public void onReceivedData(byte[] arg0) {
             String data = null;
@@ -50,7 +50,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
         }
     };
 
@@ -62,7 +61,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                 device = entry.getValue();
                 int deviceVID = device.getVendorId();
-                if (deviceVID == 0x2341)//Arduino Vendor ID
+                if (deviceVID == 0x2341)  //Arduino Vendor ID
                 {
                     PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
                     usbManager.requestPermission(device, pi);
@@ -71,21 +70,19 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                     connection = null;
                     device = null;
                 }
-
                 if (!keep)
                     break;
             }
         }
-
-
     }
 
     //    public void onClickSend(View view) {
-//        String string = editText.getText().toString();
-//        serialPort.write(string.getBytes());
-//        tvAppend(textView, "\nData Sent : " + string + "\n");
-//
-//    }
+    //      String string = editText.getText().toString();
+    //      serialPort.write(string.getBytes());
+    //      tvAppend(textView, "\nData Sent : " + string + "\n");
+    //
+    //    }
+
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -163,7 +160,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
         final RippleBackground rippleBackground = (RippleBackground) findViewById(R.id.content);
 
-     /*   ImageView imageView = (ImageView) findViewById(R.id.centerImage);
+        /*   ImageView imageView = (ImageView) findViewById(R.id.centerImage);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,10 +175,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                 onClickStart(view);
             }
         });
-
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

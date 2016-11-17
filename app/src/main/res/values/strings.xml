@@ -24,5 +24,14 @@
     <string name="title_activity_account_setting">AccountSettingActivity</string>
     <string name="analyze">Analyze</string>
     <string name="mahlogo">mahlogo</string>
+    <string name="Welcome">Welcome</string>
+    <string name="SMSAMS">SMSAMS</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="SoilList">Soil Data List</string>
+    <string name="SortBy">Sort By:</string>
+    <string name="DateTimeAdded">Date Time Added</string>
+    <string name="HighToLowest">Highest to Lowest</string>
+    <string name="Type">Type</string>
+    <string name="LocationToAZ">Location to A-Z</string>
 
 </resources>
