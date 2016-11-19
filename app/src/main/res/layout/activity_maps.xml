@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.admin123.smsams.activity.MapsActivity"
-        android:layout_weight="1"></fragment>
+        android:layout_weight="1"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

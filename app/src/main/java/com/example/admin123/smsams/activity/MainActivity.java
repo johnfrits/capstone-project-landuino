@@ -3,14 +3,13 @@ package com.example.admin123.smsams.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.admin123.smsams.R;
+import com.example.admin123.smsams.SessionManager;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -24,21 +23,31 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
 
 
     private Drawer result = null;
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button btn_showlist = (Button) findViewById(R.id.btn_showlist);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final Button btn_showlist = (Button) findViewById(R.id.btn_showlist);
 
-        //create drawer
+        session = new SessionManager(this.getApplicationContext());
+        session.isLoggedin();
+        session.checkLogin();
+        HashMap<String, String> user = session.getUserDetails();
+
+        String userid = user.get(SessionManager.KEY_USERID);
+        String username = user.get(SessionManager.KEY_USERNAME);
+
         new DrawerBuilder().withActivity(this).build();
         CreateDrawer(CreateAccountDrawer(), toolbar);
 
@@ -70,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 .withSelectionListEnabledForSingleProfile(false)
                 .withHeaderBackground(R.drawable.header1)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Johnfrits Rejaba").withIcon(getResources()
+                        new ProfileDrawerItem().withName("New User").withIcon(getResources()
                                 .getDrawable(R.drawable.profile))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
@@ -147,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
                                 drawerItem.withSetSelected(false);
                                 i = new Intent(MainActivity.this, AccountSettingActivity.class);
                                 startActivity(i);
+                                break;
+                            case 6:
+                                session.logoutUser();
                                 break;
                         }
                         return false;

@@ -6,9 +6,6 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Admin123 on 11/6/2016.
- */
 
 public class LoginRequest extends StringRequest {
 
@@ -21,7 +18,6 @@ public class LoginRequest extends StringRequest {
         params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
-
     }
 
     @Override
