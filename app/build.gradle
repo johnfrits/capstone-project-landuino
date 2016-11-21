@@ -49,11 +49,6 @@ dependencies {
     compile 'com.github.felHR85:UsbSerial:4.5'
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.android.support:support-v4:24.+'
-    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
-
-
-
-
 }
 
 

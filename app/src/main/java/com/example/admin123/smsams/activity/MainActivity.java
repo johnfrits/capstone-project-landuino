@@ -1,15 +1,24 @@
 package com.example.admin123.smsams.activity;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbDeviceConnection;
+import android.hardware.usb.UsbManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.admin123.smsams.R;
 import com.example.admin123.smsams.SessionManager;
+import com.felhr.usbserial.UsbSerialDevice;
+import com.google.android.gms.vision.text.Text;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -24,12 +33,19 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private Drawer result = null;
+    TextView tv_soil_data, tv_arduino_connection, tv_location;
     SessionManager session;
+    UsbManager usbManager;
+    UsbDevice device;
+    UsbSerialDevice serialPort;
+    UsbDeviceConnection connection;
+    public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         final Button btn_showlist = (Button) findViewById(R.id.btn_showlist);
+        tv_arduino_connection = (TextView) findViewById(R.id.tv_arduincon);
+        tv_location = (TextView) findViewById(R.id.tv_location);
 
         session = new SessionManager(this.getApplicationContext());
         session.isLoggedin();
@@ -58,6 +77,40 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        usbManager = (UsbManager) getSystemService(this.USB_SERVICE);
+        HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
+        if (!usbDevices.isEmpty()) {
+
+            boolean keep = true;
+            for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
+                device = entry.getValue();
+                int deviceVID = device.getVendorId();
+                if (deviceVID == 0x2341)  //Arduino Vendor ID
+                {
+                    PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                    usbManager.requestPermission(device, pi);
+                    keep = false;
+                } else {
+                    connection = null;
+                    device = null;
+                }
+                if (!keep)
+                    break;
+            }
+        }
+        else{
+            tv_arduino_connection.setText("NOT CONNECTED");
+        }
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            tv_location.setText("IT'S OK");
+        }
+        else{
+            tv_location.setText("IM NOT OK");
+        }
+
     }
 
     @Override

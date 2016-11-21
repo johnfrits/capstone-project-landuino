@@ -30,7 +30,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
     Button btnAnalyze;
     TextView textView;
-
     public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
     UsbManager usbManager;
     UsbDevice device;

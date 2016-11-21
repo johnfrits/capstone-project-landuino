@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         eTxtPassword = (EditText) findViewById(R.id.eTxt_password);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+
         session = new SessionManager(this);
         session.isLoggedin();
 
@@ -69,15 +70,15 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             try {
+
                                 JSONObject jsonResponse = new JSONObject(response);
                                 final boolean success = jsonResponse.getBoolean("success");
 
                                 if (success) {
                                     final String userid_ = String.valueOf(jsonResponse.getInt("userid"));
-
                                     //create session
                                     session.createLoginSession(username_, userid_);
-
+                                    //show this
                                     Toast.makeText(getApplicationContext(), "Login Success",
                                             Toast.LENGTH_SHORT).show();
 
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
 
                                 } else {
+                                    //show this
                                     builder.setMessage("Login Failed")
                                             .setNegativeButton("Retry", null)
                                             .create()
@@ -104,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     static boolean isEmptyFields(String n1, String pw1) {
         final boolean result;
