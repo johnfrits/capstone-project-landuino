@@ -16,17 +16,6 @@
         tools:context="com.example.admin123.smsams.activity.MapsActivity"
         android:layout_weight="1"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="?attr/colorPrimary"
-        app:ico_color="@color/md_white_1000"
-        app:ico_icon="@string/faw_bullseye"
-        app:ico_size="64dp" />
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

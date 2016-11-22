@@ -1,9 +1,7 @@
 package com.example.admin123.smsams.activity;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
@@ -18,7 +16,6 @@ import android.widget.TextView;
 import com.example.admin123.smsams.R;
 import com.example.admin123.smsams.SessionManager;
 import com.felhr.usbserial.UsbSerialDevice;
-import com.google.android.gms.vision.text.Text;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -51,25 +48,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //declare shits
         final Button btn_showlist = (Button) findViewById(R.id.btn_showlist);
         tv_arduino_connection = (TextView) findViewById(R.id.tv_arduincon);
         tv_location = (TextView) findViewById(R.id.tv_location);
 
+        //shared pref sessh
         session = new SessionManager(this.getApplicationContext());
         session.isLoggedin();
         session.checkLogin();
         HashMap<String, String> user = session.getUserDetails();
 
+        //get pref user id and username
         String userid = user.get(SessionManager.KEY_USERID);
         String username = user.get(SessionManager.KEY_USERNAME);
 
+        //create drawer
         new DrawerBuilder().withActivity(this).build();
         CreateDrawer(CreateAccountDrawer(), toolbar);
+        //checking connection
+        checkArduinoConnection();
+        checkLocationEnabled();
 
+        //listeners
         btn_showlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,48 +82,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        usbManager = (UsbManager) getSystemService(this.USB_SERVICE);
+    }
+
+    void checkLocationEnabled() {
+
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            tv_location.setText(R.string.loc_enabled);
+        } else {
+            tv_location.setText(R.string.loc_disabled);
+        }
+    }
+
+    void checkArduinoConnection() {
+
+        usbManager = (UsbManager) getSystemService(USB_SERVICE);
         HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
         if (!usbDevices.isEmpty()) {
-
-            boolean keep = true;
             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                 device = entry.getValue();
                 int deviceVID = device.getVendorId();
-                if (deviceVID == 0x2341)  //Arduino Vendor ID
-                {
-                    PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
-                    usbManager.requestPermission(device, pi);
-                    keep = false;
+                if (deviceVID == 0x2341) {
+                    tv_arduino_connection.setText(R.string.arduino_connected);
                 } else {
-                    connection = null;
-                    device = null;
+                    tv_arduino_connection.setText(R.string.arduino_not_connected);
                 }
-                if (!keep)
-                    break;
             }
+        } else {
+            tv_arduino_connection.setText(R.string.arduino_not_connected);
         }
-        else{
-            tv_arduino_connection.setText("NOT CONNECTED");
-        }
-
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            tv_location.setText("IT'S OK");
-        }
-        else{
-            tv_location.setText("IM NOT OK");
-        }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         result.deselect();
+        checkArduinoConnection();
+        checkLocationEnabled();
     }
 
-    //CREATE DRAWER
+    /*CREATE DRAWER*/
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
@@ -211,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(i);
                                 break;
                             case 6:
+                                onBackPressed();
                                 session.logoutUser();
                                 break;
                         }
@@ -218,5 +221,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .build();
+    }
+
+    public void onBackPressed() {
+        //handle the back press :D close the drawer first and if the drawer is closed close the activity
+        if (result != null && result.isDrawerOpen()) {
+            result.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

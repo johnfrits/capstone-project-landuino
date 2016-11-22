@@ -35,6 +35,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     UsbDevice device;
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
+    boolean clicked;
 
     UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() {
         @Override
@@ -147,7 +148,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        usbManager = (UsbManager) getSystemService(this.USB_SERVICE);
+        usbManager = (UsbManager) getSystemService(USB_SERVICE);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
@@ -155,20 +156,24 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         registerReceiver(broadcastReceiver, filter);
 
         final RippleBackground rippleBackground = (RippleBackground) findViewById(R.id.content);
-
-        /*   ImageView imageView = (ImageView) findViewById(R.id.centerImage);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rippleBackground.startRippleAnimation();
-            }
-        });*/
+        clicked = false;
 
         btnAnalyze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rippleBackground.startRippleAnimation();
-                onClickStart(view);
+
+                if (!clicked) {
+                    rippleBackground.startRippleAnimation();
+                    onClickStart(view);
+                    btnAnalyze.setText("Stop");
+                    btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse_red);
+                    clicked = true;
+                } else if (clicked) {
+                    rippleBackground.stopRippleAnimation();
+                    btnAnalyze.setText(R.string.analyze);
+                    btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse);
+                    clicked = false;
+                }
             }
         });
     }

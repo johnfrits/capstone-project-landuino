@@ -22,7 +22,7 @@
     <string name="title_activity_statistic">StatisticActivity</string>
     <string name="title_activity_app_setting">AppSettingActivity</string>
     <string name="title_activity_account_setting">AccountSettingActivity</string>
-    <string name="analyze">Analyze</string>
+    <string name="analyze">Analyse</string>
     <string name="mahlogo">mahlogo</string>
     <string name="Welcome">Welcome</string>
     <string name="SMSAMS">SMSAMS</string>
@@ -33,5 +33,9 @@
     <string name="HighToLowest">Highest to Lowest</string>
     <string name="Type">Type</string>
     <string name="LocationToAZ">Location to A-Z</string>
+    <string name="loc_enabled">Location Enabled</string>
+    <string name="loc_disabled">Location Disabled</string>
+    <string name="arduino_connected">Connected</string>
+    <string name="arduino_not_connected">Not Connected</string>
 
 </resources>
