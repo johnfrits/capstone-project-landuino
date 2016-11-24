@@ -37,5 +37,8 @@
     <string name="loc_disabled">Location Disabled</string>
     <string name="arduino_connected">Connected</string>
     <string name="arduino_not_connected">Not Connected</string>
+    <string name="area_list">Area List</string>
+    <string name="info">Info</string>
+    <string name="statistic">Statistic</string>
 
 </resources>

@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //declare shits
-        final Button btn_showlist = (Button) findViewById(R.id.btn_showlist);
         tv_arduino_connection = (TextView) findViewById(R.id.tv_arduincon);
         tv_location = (TextView) findViewById(R.id.tv_location);
 
@@ -72,15 +71,6 @@ public class MainActivity extends AppCompatActivity {
         //checking connection
         checkArduinoConnection();
         checkLocationEnabled();
-
-        //listeners
-        btn_showlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ListActivity.class);
-                startActivity(i);
-            }
-        });
 
     }
 
@@ -151,18 +141,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void CreateDrawer(AccountHeader header, Toolbar toolbar) {
 
-        PrimaryDrawerItem p_item1 = new PrimaryDrawerItem().withSetSelected(true).withIdentifier(1)
-                .withName(R.string.map).withIcon(FontAwesome.Icon.faw_map);
-        PrimaryDrawerItem p_item2 = new PrimaryDrawerItem().withIdentifier(2)
+        PrimaryDrawerItem p_item1 = new PrimaryDrawerItem().withIdentifier(1)
                 .withName(R.string.analyze_soil).withIcon(FontAwesome.Icon.faw_bullseye);
-        PrimaryDrawerItem p_item3 = new PrimaryDrawerItem().withIdentifier(3)
-                .withName(R.string.drawer_item_statistic).withIcon(FontAwesome.Icon.faw_line_chart);
+        PrimaryDrawerItem p_item2 = new PrimaryDrawerItem().withIdentifier(2)
+                .withName(R.string.area_list).withIcon(FontAwesome.Icon.faw_globe);
         //
-        SecondaryDrawerItem s_item1 = new SecondaryDrawerItem().withIdentifier(4)
+        SecondaryDrawerItem s_item1 = new SecondaryDrawerItem().withIdentifier(3)
                 .withName(R.string.drawer_item_app_settings).withIcon(FontAwesome.Icon.faw_cog);
-        SecondaryDrawerItem s_item2 = new SecondaryDrawerItem().withIdentifier(5)
+        SecondaryDrawerItem s_item2 = new SecondaryDrawerItem().withIdentifier(4)
                 .withName(R.string.drawer_item_account_settings).withIcon(FontAwesome.Icon.faw_cog);
-        SecondaryDrawerItem s_item3 = new SecondaryDrawerItem().withIdentifier(6)
+        SecondaryDrawerItem s_item3 = new SecondaryDrawerItem().withIdentifier(5)
                 .withName(R.string.logout).withIcon(FontAwesome.Icon.faw_sign_out);
 
         //Create the drawer and remember the `Drawer` result object
@@ -171,9 +159,8 @@ public class MainActivity extends AppCompatActivity {
                 .withAccountHeader(header)
                 .withToolbar(toolbar)
                 .addDrawerItems(
-                        p_item2,
                         p_item1,
-                        p_item3,
+                        p_item2,
                         new DividerDrawerItem(),
                         s_item1,
                         s_item2,
@@ -189,17 +176,12 @@ public class MainActivity extends AppCompatActivity {
                         switch (clickedID) {
                             case 1:
                                 drawerItem.withSetSelected(false);
-                                i = new Intent(MainActivity.this, MapsActivity.class);
+                                i = new Intent(MainActivity.this, AnalyzeSoilActivity.class);
                                 startActivity(i);
                                 break;
                             case 2:
                                 drawerItem.withSetSelected(false);
-                                i = new Intent(MainActivity.this, AnalyzeSoilActivity.class);
-                                startActivity(i);
-                                break;
-                            case 3:
-                                drawerItem.withSetSelected(false);
-                                i = new Intent(MainActivity.this, StatisticActivity.class);
+                                i = new Intent(MainActivity.this, AreaListActivity.class);
                                 startActivity(i);
                                 break;
                             case 4:

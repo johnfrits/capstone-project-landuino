@@ -44,11 +44,10 @@ dependencies {
     }
     compile 'com.mikepenz:fontawesome-typeface:+@aar'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-    compile 'com.github.d-max:spots-dialog:0.7@aar'
-
     compile 'com.github.felHR85:UsbSerial:4.5'
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.android.support:support-v4:24.+'
+    compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
 }
 
 
