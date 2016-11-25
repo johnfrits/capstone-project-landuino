@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.admin123.smsams.R;
 import com.felhr.usbserial.UsbSerialDevice;
@@ -140,10 +141,30 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyze_soil);
 
+
         btnAnalyze = (Button) findViewById(R.id.btn_analyze);
         textView = (TextView) findViewById(R.id.textView3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        final Boolean arduino_con = getIntent().getExtras().getBoolean("arduino_con");
+        final Boolean loc_en = getIntent().getExtras().getBoolean("location_en");
+
+        if (!arduino_con || !loc_en) {
+            btnAnalyze.setEnabled(false);
+            btnAnalyze.setBackgroundResource(R.color.disabled_analyze_btn);
+            if (!arduino_con && loc_en) {
+                Toast.makeText(getApplicationContext(), "Arduino Connection is not establish",
+                        Toast.LENGTH_LONG).show();
+            } else if (!loc_en && arduino_con) {
+                Toast.makeText(getApplicationContext(), "Location Is Disabled",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "\rGo to App Settings to\r\n\rConfigure Connection\r",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

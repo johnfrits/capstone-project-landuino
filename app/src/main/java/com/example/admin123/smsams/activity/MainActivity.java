@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     UsbDevice device;
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
+    Boolean arduino_con, location_enabled;
     public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
 
     @Override
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             tv_location.setText(R.string.loc_enabled);
+            location_enabled = true;
         } else {
             tv_location.setText(R.string.loc_disabled);
         }
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 int deviceVID = device.getVendorId();
                 if (deviceVID == 0x2341) {
                     tv_arduino_connection.setText(R.string.arduino_connected);
+                    arduino_con = true;
                 } else {
                     tv_arduino_connection.setText(R.string.arduino_not_connected);
                 }
@@ -177,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
                             case 1:
                                 drawerItem.withSetSelected(false);
                                 i = new Intent(MainActivity.this, AnalyzeSoilActivity.class);
+                                i.putExtra("arduino_con", arduino_con);
+                                i.putExtra("location_en", location_enabled);
                                 startActivity(i);
                                 break;
                             case 2:
@@ -184,17 +189,17 @@ public class MainActivity extends AppCompatActivity {
                                 i = new Intent(MainActivity.this, AreaListActivity.class);
                                 startActivity(i);
                                 break;
-                            case 4:
+                            case 3:
                                 drawerItem.withSetSelected(false);
                                 i = new Intent(MainActivity.this, AppSettingActivity.class);
                                 startActivity(i);
                                 break;
-                            case 5:
+                            case 4:
                                 drawerItem.withSetSelected(false);
                                 i = new Intent(MainActivity.this, AccountSettingActivity.class);
                                 startActivity(i);
                                 break;
-                            case 6:
+                            case 5:
                                 onBackPressed();
                                 session.logoutUser();
                                 break;
