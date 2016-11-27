@@ -38,6 +38,8 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     Button btnAnalyze;
     TextView textViewSoilData;
     TextView textViewLocationData;
+    String soilData;
+    String locationData;
     public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
     Intent i;
     UsbManager usbManager;
@@ -66,6 +68,10 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        init();
+    }
+
+    private void init() {
         btnAnalyze = (Button) findViewById(R.id.btn_analyze);
         textViewSoilData = (TextView) findViewById(R.id.textView3);
         textViewLocationData = (TextView) findViewById(R.id.textView4);
@@ -105,11 +111,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     textViewLocationData.setText("\n" + intent.getExtras().get("coordinates"));
-
-                    if (textViewLocationData.getText().length() > 0) {
-                        onClickStart();
-                        stopService(i);
-                    }
+                    locationData = textViewLocationData.getText().toString();
                 }
             };
         }
@@ -150,10 +152,13 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                 if (!clicked) {
                     rippleBackground.startRippleAnimation();
                     startService(i);
+                    onClickStart();
                     btnAnalyze.setText("Stop");
                     btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse_red);
                     clicked = true;
                 } else if (clicked) {
+                    Toast.makeText(getApplicationContext(), soilData + " " + locationData,
+                            Toast.LENGTH_SHORT).show();
                     rippleBackground.stopRippleAnimation();
                     btnAnalyze.setText(R.string.analyze);
                     btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse);
@@ -192,6 +197,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
             String data = null;
             try {
                 data = new String(arg0, "UTF-8");
+                data.concat("/n");
                 tvAppend(textViewSoilData, data);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -256,18 +262,20 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         }
     };
 
-    String soilData;
+
     private void tvAppend(TextView tv, CharSequence text) {
         final TextView ftv = tv;
         final CharSequence ftext = text;
-        soilData = ftv.getText().toString();
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ftv.setText(ftext);
+                ftv.append(ftext);
+                soilData = ftv.getText().toString();
             }
         });
+
+
     }
    /*SOIL DATA*/
 
