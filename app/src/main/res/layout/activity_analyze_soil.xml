@@ -63,22 +63,26 @@
                 android:src="@drawable/iconapp" />
 
             <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/centerImage"
-                android:layout_marginTop="78dp"
-                android:layout_toStartOf="@+id/centerImage"
-                android:textSize="24sp" />
+                android:id="@+id/textViewLocationData"
+                android:textSize="24sp"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:layout_above="@+id/btn_analyze"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="44dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewSoilData"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView4"
-                android:layout_alignBottom="@+id/textView3"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:layout_above="@+id/textViewLocationData"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="108dp"
-                android:layout_marginBottom="77dp"
                 android:textSize="24sp" />
 
         </com.skyfishjy.library.RippleBackground>

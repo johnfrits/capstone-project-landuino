@@ -27,10 +27,14 @@ import com.example.admin123.smsams.GPS_Service;
 import com.example.admin123.smsams.R;
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
+import com.google.common.base.Function;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.skyfishjy.library.RippleBackground;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AnalyzeSoilActivity extends AppCompatActivity {
@@ -38,9 +42,8 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     Button btnAnalyze;
     TextView textViewSoilData;
     TextView textViewLocationData;
-    String soilData;
     String locationData;
-    public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
+    String soilData;
     Intent i;
     UsbManager usbManager;
     UsbDevice device;
@@ -48,6 +51,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     UsbDeviceConnection connection;
     boolean clicked;
     private BroadcastReceiver broadcastReceiver;
+    public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -73,8 +77,8 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
     private void init() {
         btnAnalyze = (Button) findViewById(R.id.btn_analyze);
-        textViewSoilData = (TextView) findViewById(R.id.textView3);
-        textViewLocationData = (TextView) findViewById(R.id.textView4);
+        textViewSoilData = (TextView) findViewById(R.id.textViewSoilData);
+        textViewLocationData = (TextView) findViewById(R.id.textViewLocationData);
         i = new Intent(getApplicationContext(), GPS_Service.class);
         final Boolean arduino_con = getIntent().getExtras().getBoolean("arduino_con");
         final Boolean loc_en = getIntent().getExtras().getBoolean("location_en");
@@ -151,20 +155,26 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
                 if (!clicked) {
                     rippleBackground.startRippleAnimation();
+
                     startService(i);
                     onClickStart();
+
+
                     btnAnalyze.setText("Stop");
                     btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse_red);
                     clicked = true;
                 } else if (clicked) {
-                    Toast.makeText(getApplicationContext(), soilData + " " + locationData,
+                    soilData = GetAverageSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()));
+                    Toast.makeText(getApplicationContext(), "SOIL DATA: " + soilData + "LOCATION DATA: " + locationData,
                             Toast.LENGTH_SHORT).show();
                     rippleBackground.stopRippleAnimation();
                     btnAnalyze.setText(R.string.analyze);
                     btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse);
                     clicked = false;
-                    onClickStop();
                     stopService(i);
+                    serialPort.close();
+                    textViewSoilData.setText(" ");
+                    textViewLocationData.setText(" ");
                 }
             }
         });
@@ -191,25 +201,60 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     /*LOCATION DATA*/
 
     /*SOIL DATA*/
+
+    public String removeAmpersandAtLast(String str) {
+        if (str != null && str.length() > 0 && str.charAt(str.length() - 1) == '@') {
+            str = str.substring(0, str.length() - 1);
+        }
+        return str;
+    }
+
+    private String GetAverageSoilData(String fck) {
+
+        Integer sum = 0;
+        List<String> list = Splitter.on('@').trimResults().splitToList(fck);
+
+        List<Integer> ints = Lists.transform(list, new Function<String, Integer>() {
+            public Integer apply(String input) {
+                return Integer.valueOf(input);
+            }
+        });
+
+        for (Integer i = 0; i < ints.size(); i++) {
+            sum += ints.get(i);
+        }
+
+        sum = sum / ints.size();
+
+        return String.valueOf(sum);
+    }
+
     UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() {
         @Override
         public void onReceivedData(byte[] arg0) {
             String data = null;
             try {
                 data = new String(arg0, "UTF-8");
-                data.concat("/n");
-                tvAppend(textViewSoilData, data);
+                final String finalData = data;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (textViewSoilData.getText().toString().length() > 4 || textViewSoilData.getText().toString().length() > 3) {
+                            if (Integer.valueOf(GetAverageSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()))) > 0) {
+                                soilData = GetAverageSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()));
+                            }
+                        }
+                        textViewSoilData.append(finalData);
+                    }
+                });
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
+
         }
     };
-
-    public void onClickStop() {
-        textViewSoilData.setEnabled(false);
-        serialPort.close();
-        textViewSoilData.setText(soilData);
-    }
 
     public void onClickStart() {
         HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
@@ -256,6 +301,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                         Log.d("SERIAL", "PORT IS NULL");
                     }
                 } else {
+
                     Log.d("SERIAL", "PERM NOT GRANTED");
                 }
             }
@@ -263,20 +309,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     };
 
 
-    private void tvAppend(TextView tv, CharSequence text) {
-        final TextView ftv = tv;
-        final CharSequence ftext = text;
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ftv.append(ftext);
-                soilData = ftv.getText().toString();
-            }
-        });
-
-
-    }
    /*SOIL DATA*/
 
 }
