@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             app:rb_color="#1eae87"
             app:rb_duration="3000"
-            app:rb_radius="36dp"
+            app:rb_radius="38dp"
             app:rb_rippleAmount="8"
             app:rb_scale="7">
 
@@ -52,12 +52,13 @@
                 android:text="@string/analyze"
                 android:textColor="@color/cast_expanded_controller_progress_text_color"
                 android:textSize="14sp"
-                android:textStyle="normal|bold" />
+                android:textStyle="normal|bold"
+                android:layout_alignParentLeft="true" />
 
             <ImageView
                 android:id="@+id/centerImage"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_centerInParent="true"
                 android:contentDescription=""
                 android:src="@drawable/iconapp" />
@@ -68,7 +69,7 @@
                 android:id="@+id/textViewLocationData"
                 android:textSize="24sp"
                 android:layout_weight="1"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:layout_above="@+id/btn_analyze"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -79,11 +80,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:layout_above="@+id/textViewLocationData"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textSize="24sp" />
+
+            <ImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:id="@+id/foundLocation"
+                android:src="@drawable/compass"
+                android:visibility="invisible"
+                android:layout_marginEnd="73dp"
+                android:layout_alignBottom="@+id/centerImage"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="-50dp" />
+
+            <ImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:id="@+id/foundSoil"
+                android:src="@drawable/soil"
+                android:visibility="invisible"
+                android:layout_above="@+id/textViewLocationData"
+                android:layout_toStartOf="@+id/centerImage"
+                android:layout_marginBottom="19dp" />
+
 
         </com.skyfishjy.library.RippleBackground>
 

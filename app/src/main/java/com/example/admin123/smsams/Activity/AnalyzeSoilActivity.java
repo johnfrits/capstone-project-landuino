@@ -1,6 +1,9 @@
 package com.example.admin123.smsams.activity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,7 +22,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,25 +38,28 @@ import com.google.common.collect.Lists;
 import com.skyfishjy.library.RippleBackground;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AnalyzeSoilActivity extends AppCompatActivity {
 
-    Button btnAnalyze;
-    TextView textViewSoilData;
-    TextView textViewLocationData;
-    String locationData;
-    String soilData;
-    Intent i;
-    UsbManager usbManager;
-    UsbDevice device;
-    UsbSerialDevice serialPort;
-    UsbDeviceConnection connection;
+    private Button btnAnalyze;
+    private TextView textViewSoilData;
+    private TextView textViewLocationData;
+    private String locationData;
+    private String soilData;
+    private Intent i;
+    private UsbManager usbManager;
+    private UsbDevice device;
+    private UsbSerialDevice serialPort;
+    private UsbDeviceConnection connection;
     boolean clicked;
     private BroadcastReceiver broadcastReceiver;
     public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
+    private ImageView foundSoil;
+    private ImageView foundLocation;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -76,9 +84,13 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     }
 
     private void init() {
+
         btnAnalyze = (Button) findViewById(R.id.btn_analyze);
         textViewSoilData = (TextView) findViewById(R.id.textViewSoilData);
         textViewLocationData = (TextView) findViewById(R.id.textViewLocationData);
+        foundSoil = (ImageView) findViewById(R.id.foundSoil);
+        foundLocation = (ImageView) findViewById(R.id.foundLocation);
+
         i = new Intent(getApplicationContext(), GPS_Service.class);
         final Boolean arduino_con = getIntent().getExtras().getBoolean("arduino_con");
         final Boolean loc_en = getIntent().getExtras().getBoolean("location_en");
@@ -141,6 +153,34 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
     }
 
+    private void foundSoil() {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(500);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        ArrayList<Animator> animatorList = new ArrayList<Animator>();
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(foundSoil, "ScaleX", 0f, 1.2f, 1f);
+        animatorList.add(scaleXAnimator);
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(foundSoil, "ScaleY", 0f, 1.2f, 1f);
+        animatorList.add(scaleYAnimator);
+        animatorSet.playTogether(animatorList);
+        foundSoil.setVisibility(View.VISIBLE);
+        animatorSet.start();
+    }
+
+    private void foundLocation() {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(500);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        ArrayList<Animator> animatorList = new ArrayList<Animator>();
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(foundLocation, "ScaleX", 0f, 1.2f, 1f);
+        animatorList.add(scaleXAnimator);
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(foundLocation, "ScaleY", 0f, 1.2f, 1f);
+        animatorList.add(scaleYAnimator);
+        animatorSet.playTogether(animatorList);
+        foundLocation.setVisibility(View.VISIBLE);
+        animatorSet.start();
+    }
+
     private void enable_buttons() {
 
         final RippleBackground rippleBackground = (RippleBackground) findViewById(R.id.content);
@@ -150,16 +190,12 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //filter
                 filters();
 
                 if (!clicked) {
                     rippleBackground.startRippleAnimation();
-
                     startService(i);
                     onClickStart();
-
-
                     btnAnalyze.setText("Stop");
                     btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse_red);
                     clicked = true;
@@ -172,6 +208,8 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                     btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse);
                     clicked = false;
                     stopService(i);
+                    foundSoil.setVisibility(View.INVISIBLE);
+                    foundLocation.setVisibility(View.INVISIBLE);
                     serialPort.close();
                     textViewSoilData.setText(" ");
                     textViewLocationData.setText(" ");
@@ -236,6 +274,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
             try {
                 data = new String(arg0, "UTF-8");
                 final String finalData = data;
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -246,13 +285,17 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                             }
                         }
                         textViewSoilData.append(finalData);
+
+                        if (textViewLocationData.getText().length() > 0) {
+                            foundSoil();
+                            foundLocation();
+                        }
                     }
                 });
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
         }
     };
 
