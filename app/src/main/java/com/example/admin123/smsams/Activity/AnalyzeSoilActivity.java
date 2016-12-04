@@ -15,6 +15,7 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -54,12 +55,15 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     private UsbManager usbManager;
     private UsbDevice device;
     private UsbSerialDevice serialPort;
+    private AnimatorSet animatorSoil;
+    private AnimatorSet animatorLocation;
     private UsbDeviceConnection connection;
-    boolean clicked;
+    private Boolean clicked, foundedSoil, foundedLocation, prefclicked;
     private BroadcastReceiver broadcastReceiver;
     public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
     private ImageView foundSoil;
     private ImageView foundLocation;
+    private RippleBackground rippleBackground;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -83,6 +87,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         init();
     }
 
+
     private void init() {
 
         btnAnalyze = (Button) findViewById(R.id.btn_analyze);
@@ -90,6 +95,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         textViewLocationData = (TextView) findViewById(R.id.textViewLocationData);
         foundSoil = (ImageView) findViewById(R.id.foundSoil);
         foundLocation = (ImageView) findViewById(R.id.foundLocation);
+        rippleBackground = (RippleBackground) findViewById(R.id.content);
 
         i = new Intent(getApplicationContext(), GPS_Service.class);
         final Boolean arduino_con = getIntent().getExtras().getBoolean("arduino_con");
@@ -114,7 +120,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         } else {
             runtime_permissions();
             enable_buttons();
-
         }
     }
 
@@ -122,12 +127,14 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         if (broadcastReceiver == null) {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     textViewLocationData.setText("\n" + intent.getExtras().get("coordinates"));
                     locationData = textViewLocationData.getText().toString();
+                    foundedLocation = true;
                 }
             };
         }
@@ -153,73 +160,124 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
     }
 
+
     private void foundSoil() {
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setDuration(500);
-        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSoil = new AnimatorSet();
+        animatorSoil.setDuration(800);
+        animatorSoil.setInterpolator(new AccelerateDecelerateInterpolator());
         ArrayList<Animator> animatorList = new ArrayList<Animator>();
         ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(foundSoil, "ScaleX", 0f, 1.2f, 1f);
         animatorList.add(scaleXAnimator);
         ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(foundSoil, "ScaleY", 0f, 1.2f, 1f);
         animatorList.add(scaleYAnimator);
-        animatorSet.playTogether(animatorList);
+        animatorSoil.playTogether(animatorList);
         foundSoil.setVisibility(View.VISIBLE);
-        animatorSet.start();
+        animatorSoil.start();
+
     }
 
     private void foundLocation() {
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setDuration(500);
-        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorLocation = new AnimatorSet();
+        animatorLocation.setDuration(800);
+        animatorLocation.setInterpolator(new AccelerateDecelerateInterpolator());
         ArrayList<Animator> animatorList = new ArrayList<Animator>();
         ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(foundLocation, "ScaleX", 0f, 1.2f, 1f);
         animatorList.add(scaleXAnimator);
         ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(foundLocation, "ScaleY", 0f, 1.2f, 1f);
         animatorList.add(scaleYAnimator);
-        animatorSet.playTogether(animatorList);
+        animatorLocation.playTogether(animatorList);
         foundLocation.setVisibility(View.VISIBLE);
-        animatorSet.start();
+        animatorLocation.start();
+    }
+
+    private Integer sec1;
+    private Integer sec2;
+
+    private void analyze() {
+
+        sec1 = 7000;
+        sec2 = 5000;
+
+        final Handler handlerLocation = new Handler();
+        handlerLocation.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                foundLocation();
+                btnAnalyze.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnAnalyze.setText(R.string.complete);
+                        btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_anaylse_complete);
+                        clicked = true;
+                    }
+                }, 1000);
+            }
+        }, sec1);
+
+        final Handler handlerSoil = new Handler();
+        handlerSoil.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                foundSoil();
+            }
+        }, sec2);
+    }
+
+    private void destroy() {
+        rippleBackground.stopRippleAnimation();
+        clicked = false;
+        foundSoil.setVisibility(View.INVISIBLE);
+        foundLocation.setVisibility(View.INVISIBLE);
+        stopService(i);
+        serialPort.close();
+        textViewSoilData.setText(" ");
+        textViewLocationData.setText(" ");
+        btnAnalyze.setText(R.string.analyze);
+        btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse);
     }
 
     private void enable_buttons() {
 
-        final RippleBackground rippleBackground = (RippleBackground) findViewById(R.id.content);
         clicked = false;
-
+        prefclicked = false;
         btnAnalyze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 filters();
-
-                if (!clicked) {
+                if (!clicked && !prefclicked) {
                     rippleBackground.startRippleAnimation();
                     startService(i);
                     onClickStart();
-                    btnAnalyze.setText("Stop");
+                    analyze();
+                    btnAnalyze.setText("Analyzing");
                     btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse_red);
-                    clicked = true;
-                } else if (clicked) {
-                    soilData = GetAverageSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()));
-                    Toast.makeText(getApplicationContext(), "SOIL DATA: " + soilData + "LOCATION DATA: " + locationData,
-                            Toast.LENGTH_SHORT).show();
-                    rippleBackground.stopRippleAnimation();
-                    btnAnalyze.setText(R.string.analyze);
-                    btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse);
-                    clicked = false;
-                    stopService(i);
-                    foundSoil.setVisibility(View.INVISIBLE);
-                    foundLocation.setVisibility(View.INVISIBLE);
-                    serialPort.close();
-                    textViewSoilData.setText(" ");
-                    textViewLocationData.setText(" ");
+                    prefclicked = true;
+                } else if (clicked && prefclicked) {
+                    if (!soilData.isEmpty() && !locationData.isEmpty()) {
+                        if (foundedLocation && foundedSoil) {
+                            Toast.makeText(getApplicationContext(), "SOIL DATA: " + soilData + "LOCATION DATA: " + locationData,
+                                    Toast.LENGTH_LONG).show();
+                            prefclicked = false;
+                            Intent i = new Intent(getApplicationContext(), SaveSoilLocationDataActivity.class);
+                            startActivity(i);
+                            destroy();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "SOIL DATA: " + soilData + "LOCATION DATA: " + locationData,
+                                    Toast.LENGTH_LONG).show();
+                            //ugh destroy
+                            destroy();
+                        }
+                    }
                 }
             }
         });
     }
 
     private void runtime_permissions() {
-        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
         }
@@ -274,11 +332,10 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
             try {
                 data = new String(arg0, "UTF-8");
                 final String finalData = data;
-
+                foundedSoil = true;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         if (textViewSoilData.getText().toString().length() > 4 || textViewSoilData.getText().toString().length() > 3) {
                             if (Integer.valueOf(GetAverageSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()))) > 0) {
                                 soilData = GetAverageSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()));
@@ -286,15 +343,41 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                         }
                         textViewSoilData.append(finalData);
 
-                        if (textViewLocationData.getText().length() > 0) {
-                            foundSoil();
-                            foundLocation();
-                        }
                     }
                 });
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
+            }
+        }
+    };
+
+
+    private final BroadcastReceiver broadcastReceiverArduino = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
+                boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
+                if (granted) {
+                    connection = usbManager.openDevice(device);
+                    serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
+                    if (serialPort != null) {
+                        if (serialPort.open()) {
+                            serialPort.setBaudRate(9600);
+                            serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
+                            serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
+                            serialPort.setParity(UsbSerialInterface.PARITY_NONE);
+                            serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
+                            serialPort.read(mCallback);
+                        } else {
+                            Log.d("SERIAL", "PORT NOT OPEN");
+                        }
+                    } else {
+                        Log.d("SERIAL", "PORT IS NULL");
+                    }
+                } else {
+                    Log.d("SERIAL", "PERM NOT GRANTED");
+                }
             }
         }
     };
@@ -320,39 +403,5 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
             }
         }
     }
-
-    private final BroadcastReceiver broadcastReceiverArduino = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
-                boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
-                if (granted) {
-                    connection = usbManager.openDevice(device);
-                    serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
-                    if (serialPort != null) {
-                        if (serialPort.open()) { //Set Serial Connection Parameters.
-                            serialPort.setBaudRate(9600);
-                            serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
-                            serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
-                            serialPort.setParity(UsbSerialInterface.PARITY_NONE);
-                            serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
-                            serialPort.read(mCallback);
-                        } else {
-                            Log.d("SERIAL", "PORT NOT OPEN");
-                        }
-                    } else {
-                        Log.d("SERIAL", "PORT IS NULL");
-                    }
-                } else {
-
-                    Log.d("SERIAL", "PERM NOT GRANTED");
-                }
-            }
-        }
-    };
-
-
-
    /*SOIL DATA*/
-
 }

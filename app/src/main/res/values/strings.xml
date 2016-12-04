@@ -22,7 +22,7 @@
     <string name="title_activity_statistic">StatisticActivity</string>
     <string name="title_activity_app_setting">AppSettingActivity</string>
     <string name="title_activity_account_setting">AccountSettingActivity</string>
-    <string name="analyze">Analyse</string>
+    <string name="analyze">Analyze</string>
     <string name="mahlogo">mahlogo</string>
     <string name="Welcome">Welcome</string>
     <string name="SMSAMS">SMSAMS</string>
@@ -40,5 +40,6 @@
     <string name="area_list">Area List</string>
     <string name="info">Info</string>
     <string name="statistic">Statistic</string>
+    <string name="complete">Proceed</string>
 
 </resources>

@@ -5,4 +5,5 @@
     <color name="disabled_analyze_btn">#4c5276</color>
     <color name="colorAccent">#1eaf88</color>
     <color name="material_drawer_selected_text">@color/material_drawer_accent</color>
+    <color name="success">#64df07</color>
 </resources>
