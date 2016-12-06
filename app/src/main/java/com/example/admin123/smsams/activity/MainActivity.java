@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
     Boolean arduino_con, location_enabled;
-    public final String ACTION_USB_PERMISSION = "com.example.admin123.smsams.USB_PERMISION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             location_enabled = true;
         } else {
             tv_location.setText(R.string.loc_disabled);
+            location_enabled = false;
         }
     }
 
@@ -98,10 +98,12 @@ public class MainActivity extends AppCompatActivity {
                     arduino_con = true;
                 } else {
                     tv_arduino_connection.setText(R.string.arduino_not_connected);
+                    arduino_con = false;
                 }
             }
         } else {
             tv_arduino_connection.setText(R.string.arduino_not_connected);
+            arduino_con = false;
         }
     }
 

@@ -102,18 +102,18 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         final Boolean loc_en = getIntent().getExtras().getBoolean("location_en");
 
         if (!arduino_con || !loc_en) {
+
             btnAnalyze.setEnabled(false);
             btnAnalyze.setBackgroundResource(R.color.disabled_analyze_btn);
-
             if (!arduino_con && loc_en) {
                 Toast.makeText(getApplicationContext(), "Arduino Connection is not establish",
                         Toast.LENGTH_LONG).show();
-
-            } else if (!loc_en && arduino_con) {
+            }
+            if (!loc_en && arduino_con) {
                 Toast.makeText(getApplicationContext(), "Location Is Disabled",
                         Toast.LENGTH_LONG).show();
-
-            } else {
+            }
+            if (!loc_en && !arduino_con) {
                 Toast.makeText(getApplicationContext(), "\rGo to App Settings to\r\n\rConfigure Connection\r",
                         Toast.LENGTH_LONG).show();
             }
@@ -259,6 +259,8 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                                     Toast.LENGTH_LONG).show();
                             prefclicked = false;
                             Intent i = new Intent(getApplicationContext(), SaveSoilLocationDataActivity.class);
+                            i.putExtra("soilData", soilData);
+                            i.putExtra("locationData", locationData);
                             startActivity(i);
                             destroy();
                         } else {

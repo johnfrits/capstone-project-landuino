@@ -6,4 +6,8 @@
     <color name="colorAccent">#1eaf88</color>
     <color name="material_drawer_selected_text">@color/material_drawer_accent</color>
     <color name="success">#64df07</color>
+
+    <color name="in_water">@color/md_light_blue_600</color>
+    <color name="humid_soil">@color/md_green_600</color>
+    <color name="dry_soil">@color/md_orange_600</color>
 </resources>
