@@ -53,12 +53,13 @@
                 android:textColor="@color/cast_expanded_controller_progress_text_color"
                 android:textSize="14sp"
                 android:textStyle="normal|bold"
-                android:layout_alignParentLeft="true" />
+                android:layout_alignParentLeft="true"
+                style="@style/Widget.AppCompat.Button.Borderless" />
 
             <ImageView
                 android:id="@+id/centerImage"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="145dp"
+                android:layout_height="145dp"
                 android:layout_centerInParent="true"
                 android:contentDescription=""
                 android:src="@drawable/iconapp" />

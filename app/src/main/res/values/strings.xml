@@ -41,5 +41,7 @@
     <string name="info">Info</string>
     <string name="statistic">Statistic</string>
     <string name="complete">Proceed</string>
+    <string name="run_analyze">Run Analyze</string>
+    <string name="save">Save</string>
 
 </resources>
