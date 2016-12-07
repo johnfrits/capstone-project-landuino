@@ -64,6 +64,8 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     private ImageView foundSoil;
     private ImageView foundLocation;
     private RippleBackground rippleBackground;
+    private Integer sec1;
+    private Integer sec2;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -86,7 +88,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
         init();
     }
-
 
     private void init() {
 
@@ -135,6 +136,10 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                     textViewLocationData.setText("\n" + intent.getExtras().get("coordinates"));
                     locationData = textViewLocationData.getText().toString();
                     foundedLocation = true;
+
+                    if (foundedLocation) {
+                        locationIconAnimate();
+                    }
                 }
             };
         }
@@ -173,7 +178,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         animatorSoil.playTogether(animatorList);
         foundSoil.setVisibility(View.VISIBLE);
         animatorSoil.start();
-
     }
 
     private void foundLocation() {
@@ -190,13 +194,10 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         animatorLocation.start();
     }
 
-    private Integer sec1;
-    private Integer sec2;
 
-    private void analyze() {
+    private void locationIconAnimate() {
 
-        sec1 = 7000;
-        sec2 = 5000;
+        sec1 = 5000;
 
         final Handler handlerLocation = new Handler();
         handlerLocation.postDelayed(new Runnable() {
@@ -214,6 +215,12 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
             }
         }, sec1);
 
+
+    }
+
+    private void soilIconAnimate() {
+
+        sec2 = 5000;
         final Handler handlerSoil = new Handler();
         handlerSoil.postDelayed(new Runnable() {
             @Override
@@ -248,10 +255,11 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                     rippleBackground.startRippleAnimation();
                     startService(i);
                     onClickStart();
-                    analyze();
+                    soilIconAnimate();
                     btnAnalyze.setText("Analyzing");
                     btnAnalyze.setBackgroundResource(R.drawable.ripple_anim_button_analyse_red);
                     prefclicked = true;
+
                 } else if (clicked && prefclicked) {
                     if (!soilData.isEmpty() && !locationData.isEmpty()) {
                         if (foundedLocation && foundedSoil) {
@@ -262,11 +270,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                             i.putExtra("soilData", soilData);
                             i.putExtra("locationData", locationData);
                             startActivity(i);
-                            destroy();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "SOIL DATA: " + soilData + "LOCATION DATA: " + locationData,
-                                    Toast.LENGTH_LONG).show();
-                            //ugh destroy
                             destroy();
                         }
                     }
@@ -344,7 +347,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                             }
                         }
                         textViewSoilData.append(finalData);
-
                     }
                 });
 
