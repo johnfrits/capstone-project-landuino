@@ -3,6 +3,7 @@ package com.example.admin123.smsams.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,13 @@ import com.example.admin123.smsams.R;
 
 import java.util.List;
 
-/**
- * Created by Chau Thai on 4/12/16.
- */
-public class ListAdapter extends ArrayAdapter<String> {
+
+class ListAdapter extends ArrayAdapter<String> {
     private final LayoutInflater mInflater;
     private final ViewBinderHelper binderHelper;
     private Context context;
 
-    public ListAdapter(Context context, List<String> objects) {
+    ListAdapter(Context context, List<String> objects) {
         super(context, R.layout.row_list, objects);
         mInflater = LayoutInflater.from(context);
         binderHelper = new ViewBinderHelper();
@@ -32,9 +31,10 @@ public class ListAdapter extends ArrayAdapter<String> {
         // binderHelper.setOpenOnlyOne(true);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        final ViewHolder holder;
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.row_list, parent, false);
@@ -67,6 +67,7 @@ public class ListAdapter extends ArrayAdapter<String> {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(context, MapsActivity.class);
+                    i.putExtra("soilArea", holder.mapView.toString());
                     context.startActivity(i);
                 }
             });
@@ -86,7 +87,7 @@ public class ListAdapter extends ArrayAdapter<String> {
      * Only if you need to restore open/close state when the orientation is changed.
      * Call this method in {@link android.app.Activity#onSaveInstanceState(Bundle)}
      */
-    public void saveStates(Bundle outState) {
+    void saveStates(Bundle outState) {
         binderHelper.saveStates(outState);
     }
 
@@ -94,7 +95,7 @@ public class ListAdapter extends ArrayAdapter<String> {
      * Only if you need to restore open/close state when the orientation is changed.
      * Call this method in {@link android.app.Activity#onRestoreInstanceState(Bundle)}
      */
-    public void restoreStates(Bundle inState) {
+    void restoreStates(Bundle inState) {
         binderHelper.restoreStates(inState);
     }
 

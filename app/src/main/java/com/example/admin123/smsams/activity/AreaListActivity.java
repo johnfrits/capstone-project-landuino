@@ -8,7 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.example.admin123.smsams.R;
+import com.example.admin123.smsams.request.GetAreaListRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,17 +79,33 @@ public class AreaListActivity extends AppCompatActivity {
 
     private void setupList() {
         ListView listView = (ListView) findViewById(R.id.list_view);
-        adapter = new ListAdapter(this, createList(5));
+        adapter = new ListAdapter(this, createList());
         listView.setAdapter(adapter);
     }
 
-    private List<String> createList(int n) {
-        List<String> list = new ArrayList<>();
+    private List<String> createList() {
+        final List<String> list = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
-            list.add("Mintal " + i);
-        }
-        list.add("Dacudao");
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        String areaName = obj.getString("area_name");
+                        list.add(areaName);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        GetAreaListRequest registerRequest = new GetAreaListRequest("True", responseListener);
+        RequestQueue queue = Volley.newRequestQueue(AreaListActivity.this);
+        queue.add(registerRequest);
 
         return list;
     }
