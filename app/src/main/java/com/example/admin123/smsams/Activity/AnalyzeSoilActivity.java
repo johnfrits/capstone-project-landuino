@@ -214,8 +214,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                 }, 1000);
             }
         }, sec1);
-
-
     }
 
     private void soilIconAnimate() {

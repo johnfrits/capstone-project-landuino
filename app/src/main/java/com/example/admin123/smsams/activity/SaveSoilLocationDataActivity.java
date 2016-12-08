@@ -1,6 +1,5 @@
 package com.example.admin123.smsams.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,7 +28,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class SaveSoilLocationDataActivity extends AppCompatActivity {
 
     GetSensorValueDesc getSensorDesc;
-   // SweetAlertDialog pDialog = new SweetAlertDialog(SaveSoilLocationDataActivity.this, SweetAlertDialog.WARNING_TYPE);
+    // SweetAlertDialog pDialog = new SweetAlertDialog(SaveSoilLocationDataActivity.this, SweetAlertDialog.WARNING_TYPE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,37 +82,73 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
 
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 final RadioButton radioButton = (RadioButton) radioGroup.findViewById(selectedId);
-                String selectedPrivacy = (String) radioButton.getText();
+                final String selectedPrivacy = (String) radioButton.getText();
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if (success) {
-                                    Toast.makeText(getApplicationContext(), "SUCCESS",
-                                            Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(), "ERROR",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
+                if (!etSoilName.getText().toString().isEmpty() || !etArea.getText().toString().isEmpty() || !selectedPrivacy.isEmpty()) {
 
-                SaveSoilDataRequest saveSoilDataRequest = new SaveSoilDataRequest(
-                        etSoilName.getText().toString(),
-                        spinnerSoilType.getSelectedItem().toString(),
-                        soilData, etArea.getText().toString(),
-                        selectedPrivacy, locationData,
-                        responseListener);
+                    new SweetAlertDialog(SaveSoilLocationDataActivity.this, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Save Data")
+                            .setContentText("Soil and Location Data is ready to be save.")
+                            .setConfirmText("Save")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(final SweetAlertDialog sDialog) {
 
-                RequestQueue queue = Volley.newRequestQueue(SaveSoilLocationDataActivity.this);
-                queue.add(saveSoilDataRequest);
+                                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            try {
+                                                JSONObject jsonResponse = new JSONObject(response);
+                                                boolean success = jsonResponse.getBoolean("success");
+                                                if (success) {
+                                                    sDialog
+                                                            .setTitleText("Success")
+                                                            .setContentText("Soil and Location Data Saved.")
+                                                            .setConfirmText("OK")
+                                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                                @Override
+                                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                                    finish();
+                                                                }
+                                                            })
+                                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                                } else {
+                                                    sDialog
+                                                            .setTitleText("Failed")
+                                                            .setContentText("Soil and Location Can't Be Save")
+                                                            .setConfirmText("OK")
+                                                            .setConfirmClickListener(null)
+                                                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                                }
+                                            } catch (JSONException e) {
+                                                sDialog
+                                                        .setTitleText("Something Went Wrong")
+                                                        .setContentText("Please Try Again.")
+                                                        .setConfirmText("OK")
+                                                        .setConfirmClickListener(null)
+                                                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    };
+
+                                    SaveSoilDataRequest saveSoilDataRequest = new SaveSoilDataRequest(
+                                            etSoilName.getText().toString(),
+                                            spinnerSoilType.getSelectedItem().toString(),
+                                            soilData, etArea.getText().toString(),
+                                            selectedPrivacy, locationData,
+                                            responseListener);
+
+                                    RequestQueue queue = Volley.newRequestQueue(SaveSoilLocationDataActivity.this);
+                                    queue.add(saveSoilDataRequest);
+                                }
+                            }).show();
+                } else {
+                    new SweetAlertDialog(SaveSoilLocationDataActivity.this)
+                            .setTitleText("Please Complete All Fields.")
+                            .show();
+                }
             }
         });
 

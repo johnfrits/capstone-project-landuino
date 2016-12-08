@@ -69,8 +69,8 @@
                     android:hint="Soil Name"
                     android:inputType="textPersonName"
                     android:selectAllOnFocus="false"
-                    android:singleLine="false"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
