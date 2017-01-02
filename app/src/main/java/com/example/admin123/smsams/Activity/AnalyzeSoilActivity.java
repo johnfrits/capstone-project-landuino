@@ -55,8 +55,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     private UsbManager usbManager;
     private UsbDevice device;
     private UsbSerialDevice serialPort;
-    private AnimatorSet animatorSoil;
-    private AnimatorSet animatorLocation;
     private UsbDeviceConnection connection;
     private Boolean clicked, foundedSoil, foundedLocation, prefclicked;
     private BroadcastReceiver broadcastReceiver;
@@ -64,8 +62,6 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     private ImageView foundSoil;
     private ImageView foundLocation;
     private RippleBackground rippleBackground;
-    private Integer sec1;
-    private Integer sec2;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -167,7 +163,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
 
     private void foundSoil() {
-        animatorSoil = new AnimatorSet();
+        AnimatorSet animatorSoil = new AnimatorSet();
         animatorSoil.setDuration(800);
         animatorSoil.setInterpolator(new AccelerateDecelerateInterpolator());
         ArrayList<Animator> animatorList = new ArrayList<Animator>();
@@ -181,7 +177,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     }
 
     private void foundLocation() {
-        animatorLocation = new AnimatorSet();
+        AnimatorSet animatorLocation = new AnimatorSet();
         animatorLocation.setDuration(800);
         animatorLocation.setInterpolator(new AccelerateDecelerateInterpolator());
         ArrayList<Animator> animatorList = new ArrayList<Animator>();
@@ -197,7 +193,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
     private void locationIconAnimate() {
 
-        sec1 = 5000;
+        Integer sec1 = 5000;
 
         final Handler handlerLocation = new Handler();
         handlerLocation.postDelayed(new Runnable() {
@@ -218,7 +214,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
 
     private void soilIconAnimate() {
 
-        sec2 = 5000;
+        Integer sec2 = 5000;
         final Handler handlerSoil = new Handler();
         handlerSoil.postDelayed(new Runnable() {
             @Override

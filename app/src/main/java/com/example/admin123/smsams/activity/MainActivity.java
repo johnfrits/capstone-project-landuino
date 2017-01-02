@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
     Boolean arduino_con, location_enabled;
-
+    String userid, firstname, lastname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,15 +54,16 @@ public class MainActivity extends AppCompatActivity {
         tv_arduino_connection = (TextView) findViewById(R.id.tv_arduincon);
         tv_location = (TextView) findViewById(R.id.tv_location);
 
-        //shared pref sessh
+        //shared preference
         session = new SessionManager(this.getApplicationContext());
         session.isLoggedin();
         session.checkLogin();
-        HashMap<String, String> user = session.getUserDetails();
 
-        //get pref user id and username
-        String userid = user.get(SessionManager.KEY_USERID);
-        String username = user.get(SessionManager.KEY_USERNAME);
+        //get pref firstname, lastname, userid
+        HashMap<String, String> user = session.getUserDetails();
+        userid = user.get(SessionManager.KEY_USERID);
+        firstname = user.get(SessionManager.KEY_FIRSTNAME);
+        lastname = user.get(SessionManager.KEY_LASTNAME);
 
         //create drawer
         new DrawerBuilder().withActivity(this).build();
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 .withSelectionListEnabledForSingleProfile(false)
                 .withHeaderBackground(R.drawable.header1)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Johnfrits Rejaba").withIcon(getResources()
+                        new ProfileDrawerItem().withName(firstname + " " + lastname).withIcon(getResources()
                                 .getDrawable(R.drawable.profile))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
@@ -196,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                             case 4:
                                 drawerItem.withSetSelected(false);
                                 i = new Intent(MainActivity.this, AccountSettingActivity.class);
+                                i.putExtra("user_id", userid);
                                 startActivity(i);
                                 break;
                             case 5:

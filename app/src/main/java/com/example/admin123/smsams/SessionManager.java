@@ -22,11 +22,13 @@ public class SessionManager {
     private static final String PREF_NAME = "users";
     private static final String IS_LOGIN = "isLoggedIn";
     public static final String KEY_USERID = "123";
-    public static final String KEY_USERNAME = "name";
+    public static final String KEY_FIRSTNAME = "New";
+    public static final String KEY_LASTNAME = "User";
 
-    public void createLoginSession(String name, String userid) { //Create a login session
+    public void createLoginSession(String firstname, String lastname, String userid) { //Create a login session
         sharedPreferences_editor.putBoolean(IS_LOGIN, true);
-        sharedPreferences_editor.putString(KEY_USERNAME, name);
+        sharedPreferences_editor.putString(KEY_FIRSTNAME, firstname);
+        sharedPreferences_editor.putString(KEY_LASTNAME, lastname);
         sharedPreferences_editor.putString(KEY_USERID, userid);
         sharedPreferences_editor.commit();
     }
@@ -45,7 +47,8 @@ public class SessionManager {
 
     public HashMap<String, String> getUserDetails() {
         HashMap<String, String> user = new HashMap<>();
-        user.put(KEY_USERNAME, sharedPreferences.getString(KEY_USERNAME, null));
+        user.put(KEY_FIRSTNAME, sharedPreferences.getString(KEY_FIRSTNAME, null));
+        user.put(KEY_LASTNAME, sharedPreferences.getString(KEY_LASTNAME, null));
         user.put(KEY_USERID, sharedPreferences.getString(KEY_USERID, null));
         return user;
     }

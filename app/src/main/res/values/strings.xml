@@ -43,5 +43,12 @@
     <string name="complete">Proceed</string>
     <string name="run_analyze">Run Analyze</string>
     <string name="save">Save</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="change_your_password">Change Your Password:</string>
+    <string name="new_password">New Password</string>
+    <string name="re_enter_password">Re-Enter Password</string>
+    <string name="oldpassword">Old Password</string>
+    <string name="edit_your_name">Edit Your Name:</string>
 
 </resources>

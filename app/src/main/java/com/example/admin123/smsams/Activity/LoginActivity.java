@@ -2,6 +2,7 @@ package com.example.admin123.smsams.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,6 +20,8 @@ import com.example.admin123.smsams.request.LoginRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -60,11 +62,22 @@ public class LoginActivity extends AppCompatActivity {
                 final String username_ = eTxtUsername.getText().toString();
                 final String password_ = eTxtPassword.getText().toString();
 
+                final SweetAlertDialog pDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.setTitleText("Loading");
+                pDialog.setCancelable(false);
+                pDialog.show();
+
                 if (isEmptyFields(username_, password_)) {
-                    builder.setMessage("Please provide all fields")
-                            .setNegativeButton("Retry", null)
-                            .create()
-                            .show();
+                    pDialog
+                            .setTitleText("Please provide the input fields.")
+                            .setConfirmText("Retry")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    pDialog.dismiss();
+                                }
+                            })
+                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                 } else {
                     Response.Listener<String> responseListener = new Response.Listener<String>() {
                         @Override
@@ -73,25 +86,40 @@ public class LoginActivity extends AppCompatActivity {
 
                                 JSONObject jsonResponse = new JSONObject(response);
                                 final boolean success = jsonResponse.getBoolean("success");
+                                final int sec = 2000;
 
                                 if (success) {
                                     final String userid_ = String.valueOf(jsonResponse.getInt("userid"));
+                                    final String firstname = jsonResponse.getString("fname");
+                                    final String lastname = jsonResponse.getString("lname");
                                     //create session
-                                    session.createLoginSession(username_, userid_);
+                                    session.createLoginSession(firstname, lastname, userid_);
                                     //show this
-                                    Toast.makeText(getApplicationContext(), "Login Success",
-                                            Toast.LENGTH_SHORT).show();
+                                    pDialog
+                                            .setTitleText("Login Success!")
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 
-                                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(i);
-                                    finish();
-
+                                    final Handler handlerFinishActivity = new Handler();
+                                    handlerFinishActivity.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                            i.putExtra("user_id", userid_);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    }, sec);
                                 } else {
-                                    //show this
-                                    builder.setMessage("Login Failed")
-                                            .setNegativeButton("Retry", null)
-                                            .create()
-                                            .show();
+                                    pDialog
+                                            .setTitleText("Login Failed!")
+                                            .setConfirmText("Retry")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                    pDialog.dismiss();
+                                                }
+                                            })
+                                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -106,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
     static boolean isEmptyFields(String n1, String pw1) {
         final boolean result;

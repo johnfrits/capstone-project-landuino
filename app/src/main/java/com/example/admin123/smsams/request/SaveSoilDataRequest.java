@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class SaveSoilDataRequest extends StringRequest {
 
-    private static final String SAVE_SOIL_LOCATION_REQUEST_URL = "http://192.168.1.11/smsams/save_soil_location_data.php";
+    private static final String SAVE_SOIL_LOCATION_REQUEST_URL = "http://192.168.1.10/smsams/save_soil_location_data.php";
     private Map<String, String> params;
 
     public SaveSoilDataRequest(String soil_name, String soil_type, String moisture_value,
