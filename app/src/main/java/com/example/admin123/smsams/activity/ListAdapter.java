@@ -33,7 +33,7 @@ class ListAdapter extends ArrayAdapter<String> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         final ViewHolder holder;
 
         if (convertView == null) {
@@ -41,8 +41,6 @@ class ListAdapter extends ArrayAdapter<String> {
 
             holder = new ViewHolder();
             holder.textView = (TextView) convertView.findViewById(R.id.text);
-            holder.statView = convertView.findViewById(R.id.statistic_layout);
-            holder.mapView = convertView.findViewById(R.id.map_layout);
             holder.infoView = convertView.findViewById(R.id.info_layout);
             holder.swipeLayout = (SwipeRevealLayout) convertView.findViewById(R.id.swipe_layout);
 
@@ -56,25 +54,11 @@ class ListAdapter extends ArrayAdapter<String> {
             binderHelper.bind(holder.swipeLayout, item);
 
             holder.textView.setText(item);
-            holder.statView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(context, StatisticActivity.class);
-                    context.startActivity(i);
-                }
-            });
-            holder.mapView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context, MapsActivity.class);
-                    i.putExtra("soilArea", holder.mapView.toString());
-                    context.startActivity(i);
-                }
-            });
             holder.infoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(context, InfoViewActivity.class);
+                    i.putExtra("area_name", item);
                     context.startActivity(i);
                 }
             });
@@ -101,8 +85,6 @@ class ListAdapter extends ArrayAdapter<String> {
 
     private class ViewHolder {
         TextView textView;
-        View statView;
-        View mapView;
         View infoView;
         SwipeRevealLayout swipeLayout;
     }

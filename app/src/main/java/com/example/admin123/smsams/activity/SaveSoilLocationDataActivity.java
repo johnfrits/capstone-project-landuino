@@ -39,7 +39,6 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
         //declare
         final Button btnSave = (Button) findViewById(R.id.btn_save);
         final Button btnRunAnalyze = (Button) findViewById(R.id.btn_run_analyze);
-        final EditText etSoilName = (EditText) findViewById(R.id.et_soilname);
         final EditText etArea = (EditText) findViewById(R.id.et_area);
         final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         TextView tv_readable_soil_data = (TextView) findViewById(R.id.tv_readable_soil_data);
@@ -84,7 +83,7 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
                 final RadioButton radioButton = (RadioButton) radioGroup.findViewById(selectedId);
                 final String selectedPrivacy = (String) radioButton.getText();
 
-                if (!etSoilName.getText().toString().isEmpty() || !etArea.getText().toString().isEmpty() || !selectedPrivacy.isEmpty()) {
+                if (!etArea.getText().toString().isEmpty() || !selectedPrivacy.isEmpty()) {
 
                     new SweetAlertDialog(SaveSoilLocationDataActivity.this, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("Save Data")
@@ -134,7 +133,6 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
                                     };
 
                                     SaveSoilDataRequest saveSoilDataRequest = new SaveSoilDataRequest(
-                                            etSoilName.getText().toString(),
                                             spinnerSoilType.getSelectedItem().toString(),
                                             soilData, etArea.getText().toString(),
                                             selectedPrivacy, locationData,

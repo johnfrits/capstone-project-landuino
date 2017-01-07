@@ -8,14 +8,15 @@ import java.util.Map;
 
 public class GetAreaListRequest extends StringRequest {
 
-    private static final String GET_AREA_LIST_URL = "http://192.168.1.10/smsams/get_area_list.php";
+    private static final String GET_AREA_LIST_URL = "http://192.168.1.7:8080/smsams-android-script/get_area_list.php";
+    //private static final String GET_AREA_LIST_URL = "http://smsams.bsitcapstone.com/smsams-android-script/get_area_list.php";
     private Map<String, String> params;
 
-    public GetAreaListRequest(String get_area_status, Response.Listener<String> listener) {
+    public GetAreaListRequest(String user_id, Response.Listener<String> listener) {
         super(Method.POST, GET_AREA_LIST_URL, listener, null);
 
         params = new HashMap<>();
-        params.put("get_area_status", get_area_status);
+        params.put("user_id", user_id);
 
     }
 

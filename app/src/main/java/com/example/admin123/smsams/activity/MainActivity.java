@@ -3,7 +3,6 @@ package com.example.admin123.smsams.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.admin123.smsams.R;
 import com.example.admin123.smsams.SessionManager;
-import com.felhr.usbserial.UsbSerialDevice;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.context.IconicsContextWrapper;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -35,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private Drawer result = null;
-    TextView tv_soil_data, tv_arduino_connection, tv_location;
+    TextView tv_arduino_connection;
+    TextView tv_location;
     SessionManager session;
     UsbManager usbManager;
     UsbDevice device;
-    UsbSerialDevice serialPort;
-    UsbDeviceConnection connection;
     Boolean arduino_con, location_enabled;
     String userid, firstname, lastname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem p_item2 = new PrimaryDrawerItem().withIdentifier(2)
                 .withName(R.string.area_list).withIcon(FontAwesome.Icon.faw_globe);
         //
-        SecondaryDrawerItem s_item1 = new SecondaryDrawerItem().withIdentifier(3)
-                .withName(R.string.drawer_item_app_settings).withIcon(FontAwesome.Icon.faw_cog);
+/*        SecondaryDrawerItem s_item1 = new SecondaryDrawerItem().withIdentifier(3)
+                .withName(R.string.drawer_item_app_settings).withIcon(FontAwesome.Icon.faw_cog);*/
         SecondaryDrawerItem s_item2 = new SecondaryDrawerItem().withIdentifier(4)
                 .withName(R.string.drawer_item_account_settings).withIcon(FontAwesome.Icon.faw_cog);
         SecondaryDrawerItem s_item3 = new SecondaryDrawerItem().withIdentifier(5)
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         p_item1,
                         p_item2,
                         new DividerDrawerItem(),
-                        s_item1,
+                        //    s_item1,
                         s_item2,
                         new DividerDrawerItem(),
                         s_item3
@@ -182,18 +180,20 @@ public class MainActivity extends AppCompatActivity {
                                 i = new Intent(MainActivity.this, AnalyzeSoilActivity.class);
                                 i.putExtra("arduino_con", arduino_con);
                                 i.putExtra("location_en", location_enabled);
+                                i.putExtra("user_id", userid);
                                 startActivity(i);
                                 break;
                             case 2:
                                 drawerItem.withSetSelected(false);
                                 i = new Intent(MainActivity.this, AreaListActivity.class);
+                                i.putExtra("user_id", userid);
                                 startActivity(i);
                                 break;
-                            case 3:
+                        /*    case 3:
                                 drawerItem.withSetSelected(false);
                                 i = new Intent(MainActivity.this, AppSettingActivity.class);
                                 startActivity(i);
-                                break;
+                                break;*/
                             case 4:
                                 drawerItem.withSetSelected(false);
                                 i = new Intent(MainActivity.this, AccountSettingActivity.class);

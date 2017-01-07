@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class AreaListActivity extends AppCompatActivity {
 
     private ListAdapter adapter;
@@ -34,8 +36,6 @@ public class AreaListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setupActionBar();
         setupList();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -78,12 +78,22 @@ public class AreaListActivity extends AppCompatActivity {
     }
 
     private void setupList() {
+
         ListView listView = (ListView) findViewById(R.id.list_view);
         adapter = new ListAdapter(this, createList());
         listView.setAdapter(adapter);
     }
 
     private List<String> createList() {
+
+        final String user_id = getIntent().getExtras().getString("user_id");
+        final boolean[] success = {false};
+        final SweetAlertDialog pDialog = new SweetAlertDialog(AreaListActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.setTitleText("Getting Area List...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+
         final List<String> list = new ArrayList<>();
 
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -96,6 +106,22 @@ public class AreaListActivity extends AppCompatActivity {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         String areaName = obj.getString("area_name");
                         list.add(areaName);
+                        success[0] = true;
+                    }
+
+                    if (success[0]) {
+
+                        pDialog
+                                .setTitleText("Area List Completed")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        pDialog.dismiss();
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                })
+                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -103,9 +129,10 @@ public class AreaListActivity extends AppCompatActivity {
             }
         };
 
-        GetAreaListRequest registerRequest = new GetAreaListRequest("True", responseListener);
+        GetAreaListRequest registerRequest = new GetAreaListRequest(user_id, responseListener);
         RequestQueue queue = Volley.newRequestQueue(AreaListActivity.this);
         queue.add(registerRequest);
+
 
         return list;
     }

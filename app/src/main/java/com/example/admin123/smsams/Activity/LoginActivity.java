@@ -3,7 +3,6 @@ package com.example.admin123.smsams.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -42,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         eTxtUsername = (EditText) findViewById(R.id.eTxt_username);
         eTxtPassword = (EditText) findViewById(R.id.eTxt_password);
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 
         session = new SessionManager(this);
         session.isLoggedin();

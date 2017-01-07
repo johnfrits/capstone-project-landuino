@@ -11,12 +11,6 @@
             android:id="@+id/datetime_added"
             android:title="@string/DateTimeAdded" />
         <item
-            android:id="@+id/highest_to_lowest"
-            android:title="@string/HighToLowest" />
-        <item
-            android:id="@+id/type"
-            android:title="@string/Type" />
-        <item
             android:id="@+id/LocationToAZ"
             android:title="@string/LocationToAZ" />
     </group>

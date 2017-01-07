@@ -23,24 +23,6 @@
             android:text="@string/info"
             android:textColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/statistic_layout"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/holo_green_light"
-            android:gravity="center"
-            android:text="@string/statistic"
-            android:textColor="@android:color/white" />
-
-        <TextView
-            android:id="@+id/map_layout"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/holo_red_light"
-            android:gravity="center"
-            android:text="@string/map"
-            android:textColor="@android:color/white" />
-
 
     </LinearLayout>
 
