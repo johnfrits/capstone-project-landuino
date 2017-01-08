@@ -26,6 +26,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class AreaListActivity extends AppCompatActivity {
 
     private ListAdapter adapter;
+    private String viewPublic = "False";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,26 @@ public class AreaListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
+
+        final MenuItem viewPublicList = menu.findItem(R.id.public_list_rad);
+
+        viewPublicList.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                if (viewPublic.equals("False")) {
+                    viewPublic = "True";
+                    viewPublicList.setChecked(true);
+                    setupList();
+                } else {
+                    viewPublic = "False";
+                    viewPublicList.setChecked(false);
+                    setupList();
+                }
+
+                return false;
+            }
+        });
         return true;
     }
 
@@ -52,6 +73,7 @@ public class AreaListActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -90,7 +112,7 @@ public class AreaListActivity extends AppCompatActivity {
         final boolean[] success = {false};
         final SweetAlertDialog pDialog = new SweetAlertDialog(AreaListActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.setTitleText("Getting Area List...");
-        pDialog.setCancelable(false);
+        pDialog.setCancelable(true);
         pDialog.show();
 
 
@@ -129,7 +151,7 @@ public class AreaListActivity extends AppCompatActivity {
             }
         };
 
-        GetAreaListRequest registerRequest = new GetAreaListRequest(user_id, responseListener);
+        GetAreaListRequest registerRequest = new GetAreaListRequest(user_id, viewPublic, responseListener);
         RequestQueue queue = Volley.newRequestQueue(AreaListActivity.this);
         queue.add(registerRequest);
 

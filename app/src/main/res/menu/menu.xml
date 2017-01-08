@@ -2,17 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Settings, should always be in the overflow -->
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/SortBy"
-        android:checkable="false" />
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/datetime_added"
-            android:title="@string/DateTimeAdded" />
-        <item
-            android:id="@+id/LocationToAZ"
-            android:title="@string/LocationToAZ" />
+            android:id="@+id/public_list_rad"
+            android:title="@string/public_list"
+            android:visible="true"
+            android:enabled="true"
+            android:checkable="true" />
     </group>
 
 </menu>

@@ -50,5 +50,6 @@
     <string name="re_enter_password">Re-Enter Password</string>
     <string name="oldpassword">Old Password</string>
     <string name="edit_your_name">Edit Your Name:</string>
+    <string name="public_list">View Public List</string>
 
 </resources>

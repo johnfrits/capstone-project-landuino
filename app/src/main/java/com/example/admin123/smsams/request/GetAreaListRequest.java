@@ -12,11 +12,12 @@ public class GetAreaListRequest extends StringRequest {
     //private static final String GET_AREA_LIST_URL = "http://smsams.bsitcapstone.com/smsams-android-script/get_area_list.php";
     private Map<String, String> params;
 
-    public GetAreaListRequest(String user_id, Response.Listener<String> listener) {
+    public GetAreaListRequest(String user_id, String view_public, Response.Listener<String>listener) {
         super(Method.POST, GET_AREA_LIST_URL, listener, null);
 
         params = new HashMap<>();
         params.put("user_id", user_id);
+        params.put("view_public", view_public);
 
     }
 
