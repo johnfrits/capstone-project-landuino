@@ -131,7 +131,7 @@ public class AreaListActivity extends AppCompatActivity {
                         success[0] = true;
                     }
 
-                    if (success[0]) {
+                    if (success[0] && !list.isEmpty()) {
 
                         pDialog
                                 .setTitleText("Area List Completed")
@@ -144,6 +144,19 @@ public class AreaListActivity extends AppCompatActivity {
                                     }
                                 })
                                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                    }
+                    else{
+                        pDialog
+                                .setTitleText("Area List Empty")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        pDialog.dismiss();
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                })
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
