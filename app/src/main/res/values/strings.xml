@@ -38,7 +38,7 @@
     <string name="arduino_connected">Connected</string>
     <string name="arduino_not_connected">Not Connected</string>
     <string name="area_list">Area List</string>
-    <string name="info">Info</string>
+    <string name="info">View</string>
     <string name="statistic">Statistic</string>
     <string name="complete">Proceed</string>
     <string name="run_analyze">Run Analyze</string>
@@ -51,5 +51,6 @@
     <string name="oldpassword">Old Password</string>
     <string name="edit_your_name">Edit Your Name:</string>
     <string name="public_list">View Public List</string>
+    <string name="content">Content</string>
 
 </resources>

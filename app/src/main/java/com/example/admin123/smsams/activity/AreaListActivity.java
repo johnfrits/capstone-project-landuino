@@ -27,6 +27,7 @@ public class AreaListActivity extends AppCompatActivity {
 
     private ListAdapter adapter;
     private String viewPublic = "False";
+    private String privacy = "private";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,12 @@ public class AreaListActivity extends AppCompatActivity {
 
                 if (viewPublic.equals("False")) {
                     viewPublic = "True";
+                    privacy = "public";
                     viewPublicList.setChecked(true);
                     setupList();
                 } else {
                     viewPublic = "False";
+                    privacy = "private";
                     viewPublicList.setChecked(false);
                     setupList();
                 }
@@ -102,7 +105,7 @@ public class AreaListActivity extends AppCompatActivity {
     private void setupList() {
 
         ListView listView = (ListView) findViewById(R.id.list_view);
-        adapter = new ListAdapter(this, createList());
+        adapter = new ListAdapter(this, createList(), privacy);
         listView.setAdapter(adapter);
     }
 
@@ -144,8 +147,7 @@ public class AreaListActivity extends AppCompatActivity {
                                     }
                                 })
                                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                    }
-                    else{
+                    } else {
                         pDialog
                                 .setTitleText("Area List Empty")
                                 .setConfirmText("OK")

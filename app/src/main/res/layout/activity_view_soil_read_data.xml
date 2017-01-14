@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorAccent"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="@android:color/white" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp">
+
+        <TextView
+            android:text="Type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView14"
+            android:textSize="30sp"
+            android:textAlignment="viewStart" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView22"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:paddingLeft="15dp"
+            android:textAlignment="viewStart"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:text="Soil Moisture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView15"
+            android:textSize="30sp"
+            android:textAlignment="viewStart" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView23"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:paddingLeft="15dp"
+            android:textAlignment="viewStart"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:text="Moisture Value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView16"
+            android:textSize="30sp"
+            android:textAlignment="viewStart" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView24"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:paddingLeft="15dp"
+            android:textAlignment="viewStart"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:text="Latitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView17"
+            android:textSize="30sp"
+            android:textAlignment="viewStart" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView25"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:paddingLeft="15dp"
+            android:textAlignment="viewStart"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:text="Longitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView18"
+            android:textSize="30sp"
+            android:textAlignment="viewStart" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView19"
+            android:textSize="24sp"
+            android:textAlignment="viewStart"
+            android:textStyle="normal|bold"
+            android:paddingLeft="15dp"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:text="Status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView27"
+            android:textSize="30sp"
+            android:textAlignment="viewStart" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView20"
+            android:textSize="24sp"
+            android:textAlignment="viewStart"
+            android:textStyle="normal|bold"
+            android:paddingLeft="15dp"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:text="Date Time Added"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView28"
+            android:textSize="30sp"
+            android:textAlignment="viewStart" />
+
+        <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView26"
+        android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:paddingLeft="15dp"
+            android:textAlignment="viewStart"
+            android:layout_marginBottom="5dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

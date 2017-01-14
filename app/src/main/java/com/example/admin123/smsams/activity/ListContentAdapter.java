@@ -17,18 +17,16 @@ import com.example.admin123.smsams.R;
 import java.util.List;
 
 
-class ListAdapter extends ArrayAdapter<String> {
+class ListContentAdapter extends ArrayAdapter<String> {
     private final LayoutInflater mInflater;
     private final ViewBinderHelper binderHelper;
     private Context context;
-    private String privacy;
 
-    ListAdapter(Context context, List<String> objects, String privacy) {
-        super(context, R.layout.row_list, objects);
+    ListContentAdapter(Context context, List<String> objects) {
+        super(context, R.layout.view_item, objects);
         mInflater = LayoutInflater.from(context);
         binderHelper = new ViewBinderHelper();
         this.context = context;
-        this.privacy = privacy;
         // uncomment if you want to open only one row at a time
         // binderHelper.setOpenOnlyOne(true);
     }
@@ -39,12 +37,12 @@ class ListAdapter extends ArrayAdapter<String> {
         final ViewHolder holder;
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.row_list, parent, false);
+            convertView = mInflater.inflate(R.layout.view_item, parent, false);
 
             holder = new ViewHolder();
-            holder.textView = (TextView) convertView.findViewById(R.id.text);
-            holder.infoView = convertView.findViewById(R.id.info_layout);
-            holder.swipeLayout = (SwipeRevealLayout) convertView.findViewById(R.id.swipe_layout);
+            holder.textView = (TextView) convertView.findViewById(R.id.text1);
+            holder.contentView = convertView.findViewById(R.id.content_layout);
+            holder.swipeLayout = (SwipeRevealLayout) convertView.findViewById(R.id.swipe_layout1);
 
             convertView.setTag(holder);
         } else {
@@ -56,12 +54,11 @@ class ListAdapter extends ArrayAdapter<String> {
             binderHelper.bind(holder.swipeLayout, item);
 
             holder.textView.setText(item);
-            holder.infoView.setOnClickListener(new View.OnClickListener() {
+            holder.contentView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, InfoViewActivity.class);
-                    i.putExtra("area_name", item);
-                    i.putExtra("privacy", privacy);
+                    Intent i = new Intent(context, ViewSoilReadDataActivity.class);
+                    i.putExtra("content_name", item);
                     context.startActivity(i);
                 }
             });
@@ -88,7 +85,7 @@ class ListAdapter extends ArrayAdapter<String> {
 
     private class ViewHolder {
         TextView textView;
-        View infoView;
+        View contentView;
         SwipeRevealLayout swipeLayout;
     }
 }

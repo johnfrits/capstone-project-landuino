@@ -24,7 +24,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-
         <service android:name=".GPS_Service" />
 
         <activity
@@ -73,7 +72,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".activity.SaveSoilLocationDataActivity"></activity>
+        <activity android:name=".activity.SaveSoilLocationDataActivity" />
+        <activity android:name=".activity.ViewSoilReadDataActivity"></activity>
     </application>
 
 </manifest>
