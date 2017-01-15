@@ -41,7 +41,7 @@
     <string name="info">View</string>
     <string name="statistic">Statistic</string>
     <string name="complete">Proceed</string>
-    <string name="run_analyze">Run Analyze</string>
+    <string name="run_analyze">Analyze</string>
     <string name="save">Save</string>
     <string name="last_name">Last Name</string>
     <string name="first_name">First Name</string>

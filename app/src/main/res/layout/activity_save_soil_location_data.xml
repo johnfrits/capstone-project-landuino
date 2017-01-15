@@ -56,27 +56,18 @@
             android:paddingTop="20dp"
             android:weightSum="1">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/textView2"
+            <TextView
+                android:text="Area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:weightSum="1">
+                android:id="@+id/textView5" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/et_area"
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:ems="10"
-                    android:hint="Area"
-                    android:inputType="textMultiLine"
-                    android:lines="8"
-                    android:minLines="6"
-                    android:selectAllOnFocus="false"
-                    android:textAlignment="viewStart"
-                    android:textSize="14sp" />
-
-            </android.support.design.widget.TextInputLayout>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.13"
+                android:id="@+id/spinnerArea"
+                android:elevation="10dp" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -89,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.13"
-                tools:ignore="NestedWeights" />
+                android:elevation="10dp" />
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -116,7 +107,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Private" />
+
             </RadioGroup>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -137,7 +133,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/ripple_anim_button_analyse"
                 android:text="@string/run_analyze"
-                android:textColor="@color/cast_expanded_controller_progress_text_color" />
+                android:textColor="@color/cast_expanded_controller_progress_text_color"
+                tools:text="Analyze" />
 
             <Button
                 android:id="@+id/btn_save"

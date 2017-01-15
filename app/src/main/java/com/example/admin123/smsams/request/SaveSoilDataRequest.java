@@ -12,7 +12,7 @@ public class SaveSoilDataRequest extends StringRequest {
     //private static final String SAVE_SOIL_LOCATION_REQUEST_URL = "http://smsams.bsitcapstone.com/smsams-android-script/save_soil_location_data.php";
     private Map<String, String> params;
 
-    public SaveSoilDataRequest(String soil_type, String moisture_value,
+    public SaveSoilDataRequest(String soil_type, String soil_moisture, String moisture_value,
                                String area_name, String soil_privacy, String coordinates,
                                Response.Listener<String> listener) {
 
@@ -20,6 +20,7 @@ public class SaveSoilDataRequest extends StringRequest {
 
         params = new HashMap<>();
         params.put("soil_type", soil_type);
+        params.put("soil_moisture", soil_moisture);
         params.put("soil_moisture_value", moisture_value);
         params.put("soil_area_name", area_name);
         params.put("soil_privacy", soil_privacy);

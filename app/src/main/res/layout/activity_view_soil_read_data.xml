@@ -22,137 +22,151 @@
         android:padding="15dp">
 
         <TextView
-            android:text="Type"
+            android:text="Type:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView14"
             android:textSize="30sp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView22"
+            android:id="@+id/tv_type"
             android:textSize="24sp"
-            android:textStyle="normal|bold"
             android:paddingLeft="15dp"
             android:textAlignment="viewStart"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="Soil Moisture"
+            android:text="Soil Moisture:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView15"
             android:textSize="30sp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView23"
+            android:id="@+id/tv_soil_moisture"
             android:textSize="24sp"
-            android:textStyle="normal|bold"
             android:paddingLeft="15dp"
             android:textAlignment="viewStart"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="Moisture Value"
+            android:text="Moisture Value:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView16"
             android:textSize="30sp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView24"
+            android:id="@+id/tv_moisture_value"
             android:textSize="24sp"
-            android:textStyle="normal|bold"
             android:paddingLeft="15dp"
             android:textAlignment="viewStart"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="Latitude"
+            android:text="Latitude:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView17"
             android:textSize="30sp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView25"
+            android:id="@+id/tv_latitude"
             android:textSize="24sp"
-            android:textStyle="normal|bold"
             android:paddingLeft="15dp"
             android:textAlignment="viewStart"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="Longitude"
+            android:text="Longitude:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView18"
             android:textSize="30sp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView19"
+            android:id="@+id/tv_longitude"
             android:textSize="24sp"
             android:textAlignment="viewStart"
-            android:textStyle="normal|bold"
             android:paddingLeft="15dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="Status"
+            android:text="Status:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView27"
             android:textSize="30sp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView20"
+            android:id="@+id/tv_status"
             android:textSize="24sp"
             android:textAlignment="viewStart"
-            android:textStyle="normal|bold"
             android:paddingLeft="15dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="Date Time Added"
+            android:text="Date Time Added:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView28"
             android:textSize="30sp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:fontFamily="sans-serif" />
 
         <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView26"
+        android:id="@+id/tv_dta"
         android:textSize="24sp"
-            android:textStyle="normal|bold"
             android:paddingLeft="15dp"
             android:textAlignment="viewStart"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal|bold" />
 
     </LinearLayout>
 

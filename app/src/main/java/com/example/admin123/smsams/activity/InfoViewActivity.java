@@ -84,7 +84,7 @@ public class InfoViewActivity extends AppCompatActivity {
         final String privacy = getIntent().getExtras().getString("privacy");
         final boolean[] success = {false};
         final SweetAlertDialog pDialog = new SweetAlertDialog(InfoViewActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.setTitleText("Getting Area List...");
+        pDialog.setTitleText("Getting Soil List Read...");
         pDialog.setCancelable(true);
         pDialog.show();
 
@@ -107,7 +107,7 @@ public class InfoViewActivity extends AppCompatActivity {
                     if (success[0] && !list.isEmpty()) {
 
                         pDialog
-                                .setTitleText("Area List Completed")
+                                .setTitleText("Soil List Read Completed")
                                 .setConfirmText("OK")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
@@ -119,7 +119,7 @@ public class InfoViewActivity extends AppCompatActivity {
                                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                     } else {
                         pDialog
-                                .setTitleText("Area List Empty")
+                                .setTitleText("Soil List Read Empty")
                                 .setConfirmText("OK")
                                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override

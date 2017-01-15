@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,10 +17,15 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.admin123.smsams.GetSensorValueDesc;
 import com.example.admin123.smsams.R;
+import com.example.admin123.smsams.request.GetAllAreaRequest;
 import com.example.admin123.smsams.request.SaveSoilDataRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -29,7 +33,7 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
 
     GetSensorValueDesc getSensorDesc;
     // SweetAlertDialog pDialog = new SweetAlertDialog(SaveSoilLocationDataActivity.this, SweetAlertDialog.WARNING_TYPE);
-
+    ArrayAdapter<String> adapter1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +43,8 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
         //declare
         final Button btnSave = (Button) findViewById(R.id.btn_save);
         final Button btnRunAnalyze = (Button) findViewById(R.id.btn_run_analyze);
-        final EditText etArea = (EditText) findViewById(R.id.et_area);
         final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        TextView tv_readable_soil_data = (TextView) findViewById(R.id.tv_readable_soil_data);
+        final TextView tv_readable_soil_data = (TextView) findViewById(R.id.tv_readable_soil_data);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.colorbruhLinearLayout);
         getSensorDesc = new GetSensorValueDesc();
 
@@ -70,9 +73,40 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
                 "Sandy", "Silty", "Clay", "Peaty", "Loam"
         };
         final Spinner spinnerSoilType = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         spinnerSoilType.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        final List<String> list = new ArrayList<>();
+
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        String areaName = obj.getString("area_name");
+                        list.add(areaName);
+                        adapter1.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        GetAllAreaRequest registerRequest = new GetAllAreaRequest("2", responseListener);
+        RequestQueue queue = Volley.newRequestQueue(SaveSoilLocationDataActivity.this);
+        queue.add(registerRequest);
+
+        final Spinner spinnerAreaType = (Spinner) findViewById(R.id.spinnerArea);
+        adapter1 = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, list);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerAreaType.setAdapter(adapter1);
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +117,7 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
                 final RadioButton radioButton = (RadioButton) radioGroup.findViewById(selectedId);
                 final String selectedPrivacy = (String) radioButton.getText();
 
-                if (!etArea.getText().toString().isEmpty() || !selectedPrivacy.isEmpty()) {
+                if (!selectedPrivacy.isEmpty()) {
 
                     new SweetAlertDialog(SaveSoilLocationDataActivity.this, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("Save Data")
@@ -132,9 +166,10 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
                                         }
                                     };
 
+                                    String soil_moisture = tv_readable_soil_data.getText().toString();
                                     SaveSoilDataRequest saveSoilDataRequest = new SaveSoilDataRequest(
-                                            spinnerSoilType.getSelectedItem().toString(),
-                                            soilData, etArea.getText().toString(),
+                                            spinnerSoilType.getSelectedItem().toString(), soil_moisture,
+                                            soilData, spinnerAreaType.getSelectedItem().toString(),
                                             selectedPrivacy, locationData,
                                             responseListener);
 
