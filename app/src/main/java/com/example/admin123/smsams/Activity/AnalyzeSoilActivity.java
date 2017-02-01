@@ -62,6 +62,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
     private ImageView foundSoil;
     private ImageView foundLocation;
     private RippleBackground rippleBackground;
+    private String user_id;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -97,6 +98,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         i = new Intent(getApplicationContext(), GPS_Service.class);
         final Boolean arduino_con = getIntent().getExtras().getBoolean("arduino_con");
         final Boolean loc_en = getIntent().getExtras().getBoolean("location_en");
+        user_id = getIntent().getExtras().getString("user_id");
 
         if (!arduino_con || !loc_en) {
 
@@ -263,6 +265,7 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                             Intent i = new Intent(getApplicationContext(), SaveSoilLocationDataActivity.class);
                             i.putExtra("soilData", soilData);
                             i.putExtra("locationData", locationData);
+                            i.putExtra("user_id", user_id);
                             startActivity(i);
                             destroy();
                         }
@@ -324,6 +327,18 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
         return String.valueOf(sum);
     }
 
+    private String GetSoilData(String fck) {
+
+        String soildata = "";
+        List<String> list = Splitter.on('@').trimResults().splitToList(fck);
+
+        if (list.size() >= 2) {
+            soildata = list.get(list.size() - 2);
+        }
+
+        return soildata;
+    }
+
     UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() {
         @Override
         public void onReceivedData(byte[] arg0) {
@@ -335,9 +350,9 @@ public class AnalyzeSoilActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (textViewSoilData.getText().toString().length() > 4 || textViewSoilData.getText().toString().length() > 3) {
-                            if (Integer.valueOf(GetAverageSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()))) > 0) {
-                                soilData = GetAverageSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()));
+                        if (textViewSoilData.getText().toString().length() > 10 || textViewSoilData.getText().toString().length() > 10) {
+                            if (Integer.valueOf(GetSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()))) > 0) {
+                                soilData = GetSoilData(removeAmpersandAtLast(textViewSoilData.getText().toString()));
                             }
                         }
                         textViewSoilData.append(finalData);

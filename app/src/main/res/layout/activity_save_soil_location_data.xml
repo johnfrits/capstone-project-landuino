@@ -16,33 +16,35 @@
             android:id="@+id/colorbruhLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.08"
+            android:layout_weight="0.03"
             android:background="@color/md_orange_600"
             android:orientation="vertical"
-            android:paddingBottom="10dp">
+            android:weightSum="1">
 
             <ImageView
                 android:id="@+id/iv_color_change"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-
-                android:contentDescription="roo?"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.35"
                 app:srcCompat="@drawable/soil"
-                tools:ignore="NestedWeights" />
+                tools:ignore="NestedWeights"
+                android:paddingTop="10dp"/>
 
             <TextView
                 android:id="@+id/tv_readable_soil_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="IN WATER"
+                android:text="DRY SOIL"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="?android:attr/colorLongPressedHighlight"
-                android:textSize="24sp"
+                android:textSize="26sp"
                 android:textStyle="normal|bold"
-                android:typeface="normal" />
+                android:typeface="normal"
+                android:layout_alignBottom="@+id/iv_color_change"
+                android:layout_alignParentStart="true"
+                android:layout_weight="0.35" />
 
         </LinearLayout>
 
@@ -65,9 +67,9 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.13"
                 android:id="@+id/spinnerArea"
-                android:elevation="10dp" />
+                android:elevation="10dp"
+                android:layout_marginBottom="10dp" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -79,8 +81,8 @@
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.13"
-                android:elevation="10dp" />
+                android:elevation="10dp"
+                android:layout_marginBottom="10dp" />
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -110,9 +112,27 @@
 
             </RadioGroup>
 
-            <ListView
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Recommended Plants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView"
+                    android:textStyle="normal|bold"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp" />
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/plant_recom_list" />
+            </LinearLayout>
 
         </LinearLayout>
 

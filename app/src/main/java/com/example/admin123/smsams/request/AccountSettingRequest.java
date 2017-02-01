@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class AccountSettingRequest extends StringRequest {
 
-    private static final String ACCOUNT_SETTING_URL = "http://192.168.1.7:8080/smsams-android-script/account_setting.php";
+    private static final String ACCOUNT_SETTING_URL = "http://192.168.1.8:8080/smsams-android-script/account_setting.php";
     private Map<String, String> params;
 
     public AccountSettingRequest(String fname, String lname,

@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.admin123.smsams.GetSensorValueDesc;
 import com.example.admin123.smsams.R;
 import com.example.admin123.smsams.request.GetAllAreaRequest;
+import com.example.admin123.smsams.request.GetPlantRequest;
 import com.example.admin123.smsams.request.SaveSoilDataRequest;
 
 import org.json.JSONArray;
@@ -34,6 +36,8 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
     GetSensorValueDesc getSensorDesc;
     // SweetAlertDialog pDialog = new SweetAlertDialog(SaveSoilLocationDataActivity.this, SweetAlertDialog.WARNING_TYPE);
     ArrayAdapter<String> adapter1;
+    ArrayAdapter<String> arrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +52,13 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.colorbruhLinearLayout);
         getSensorDesc = new GetSensorValueDesc();
 
+        final String user_id = getIntent().getExtras().getString("user_id");
         //get extra values
         final String soilData = getIntent().getExtras().getString("soilData");
         final String locationData = getIntent().getExtras().getString("locationData");
+
+        final String soil_moisture = tv_readable_soil_data.getText().toString();
+
 
         //show readable data
         if (soilData.length() > 0) {
@@ -67,6 +75,36 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
                 linearLayout.setBackgroundResource(R.color.dry_soil);
             }
         }
+
+        ListView listView = (ListView) findViewById(R.id.plant_recom_list);
+
+        // Initializing a new Plant Array
+        final List<String> listPlant = new ArrayList<>();
+
+        Response.Listener<String> responseListener1 = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        String plant_name = obj.getString("plant_name");
+                        listPlant.add(plant_name);
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        GetPlantRequest registerRequest1 = new GetPlantRequest(soil_moisture, responseListener1);
+        RequestQueue queue1 = Volley.newRequestQueue(SaveSoilLocationDataActivity.this);
+        queue1.add(registerRequest1);
+
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listPlant);
+        listView.setAdapter(arrayAdapter);
 
         //Add Data to Spinner
         String[] arraySpinner = new String[]{
@@ -117,6 +155,7 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
                 final RadioButton radioButton = (RadioButton) radioGroup.findViewById(selectedId);
                 final String selectedPrivacy = (String) radioButton.getText();
 
+
                 if (!selectedPrivacy.isEmpty()) {
 
                     new SweetAlertDialog(SaveSoilLocationDataActivity.this, SweetAlertDialog.WARNING_TYPE)
@@ -166,11 +205,11 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
                                         }
                                     };
 
-                                    String soil_moisture = tv_readable_soil_data.getText().toString();
+
                                     SaveSoilDataRequest saveSoilDataRequest = new SaveSoilDataRequest(
                                             spinnerSoilType.getSelectedItem().toString(), soil_moisture,
                                             soilData, spinnerAreaType.getSelectedItem().toString(),
-                                            selectedPrivacy, locationData,
+                                            selectedPrivacy, locationData, user_id,
                                             responseListener);
 
                                     RequestQueue queue = Volley.newRequestQueue(SaveSoilLocationDataActivity.this);

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class GetCoordinatesRequest extends StringRequest {
 
-    private static final String GET_COORDINATES_URL = "http://192.168.1.7:8080/smsams-android-script/get_soil_coordinates.php";
+    private static final String GET_COORDINATES_URL = "http://192.168.1.8:8080/smsams-android-script/get_soil_coordinates.php";
     //private static final String GET_COORDINATES_URL = "http://smsams.bsitcapstone.com/smsams-android-script/get_soil_coordinates.php";
     private Map<String, String> params;
 
