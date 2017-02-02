@@ -57,7 +57,7 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
         final String soilData = getIntent().getExtras().getString("soilData");
         final String locationData = getIntent().getExtras().getString("locationData");
 
-        final String soil_moisture = tv_readable_soil_data.getText().toString();
+
 
 
         //show readable data
@@ -76,6 +76,7 @@ public class SaveSoilLocationDataActivity extends AppCompatActivity {
             }
         }
 
+        final String soil_moisture = tv_readable_soil_data.getText().toString();
         ListView listView = (ListView) findViewById(R.id.plant_recom_list);
 
         // Initializing a new Plant Array

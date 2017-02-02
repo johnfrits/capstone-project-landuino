@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class GetAreaListRequest extends StringRequest {
 
-    private static final String GET_AREA_LIST_URL = "http://192.168.1.8:8080/smsams-android-script/get_area_list.php";
+    private static final String GET_AREA_LIST_URL = "http://smsams.bsitcapstone.com/smsams-android-script/get_area_list.php";
     //private static final String GET_AREA_LIST_URL = "http://smsams.bsitcapstone.com/smsams-android-script/get_area_list.php";
     private Map<String, String> params;
 

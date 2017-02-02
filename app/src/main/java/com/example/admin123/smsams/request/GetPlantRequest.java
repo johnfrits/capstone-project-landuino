@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class GetPlantRequest extends StringRequest {
 
-    private static final String GET_PLANT_RECOM_REQUEST_URL = "http://192.168.1.8:8080/smsams-android-script/get_plant_recom.php";
+    private static final String GET_PLANT_RECOM_REQUEST_URL = "http://smsams.bsitcapstone.com/smsams-android-script/get_plant_recom.php";
     //private static final String SAVE_SOIL_LOCATION_REQUEST_URL = "http://smsams.bsitcapstone.com/smsams-android-script/save_soil_location_data.php";
     private Map<String, String> params;
 
